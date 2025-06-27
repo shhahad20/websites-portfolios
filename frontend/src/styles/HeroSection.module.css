@@ -1,0 +1,132 @@
+/* src/components/HeroSection.module.css */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 2rem;
+  /* gradient background */
+  /* background: radial-gradient(circle at top, #fede84 0%, #fff 70%); */
+}
+
+/* noise overlay */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("../assets/noise.png") repeat;
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.title {
+  font-size: 3rem;
+  margin: 0;
+  font-weight: 600;
+  color: #434343;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  color: #434343;
+}
+.smtitle {
+  font-size: 0.87rem;
+  color: #434343;
+}
+.prompts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  /* margin: 2rem 0; */
+}
+
+.promptCard {
+  padding: 0.87rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 0.87rem;
+  color: #434343;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+
+.promptCard:hover {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.refreshPrompt {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  color: #434343;
+  font-weight: 500;
+  cursor: pointer;
+}
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  margin-top: 1rem;
+}
+
+.textInput {
+  flex: 1;
+  min-height: 3.5rem;
+  padding: 1rem;
+  padding-right: 3.5rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  resize: none;
+  font-size: 1rem;
+}
+
+.charCount {
+  position: absolute;
+  right: 3rem;
+  bottom: 0.7rem;
+  font-size: 0.85rem;
+  color: #999;
+  /* align with sendBtn */
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+.sendBtn {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #666;
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .title {
+    font-size: 2.25rem;
+  }
+  .subtitle {
+    font-size: 1.1rem;
+  }
+}
