@@ -159,6 +159,16 @@
   height: 30px;
 }
 
+/* —— Chat Only Window —— */
+.chatOnlyWindow {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 /* —— Responsiveness —— */
 @media (max-width: 600px) {
   .promptCard {

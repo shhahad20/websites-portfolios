@@ -60,16 +60,18 @@ export const HeroSection: React.FC = () => {
           <p className={styles.smtitle}>
             Use one of the most common prompts below or use your own to begin
           </p>
-          <div className={styles.prompts}>
-            {visiblePrompts.map((p) => (
-              <button
-                key={p}
-                className={styles.promptCard}
-                onClick={() => handlePromptClick(p)}
-              >
-                {p}
-              </button>
-            ))}
+          <div className={styles.promptsWrapper}>
+            <div className={styles.prompts}>
+              {visiblePrompts.map((p) => (
+                <button
+                  key={p}
+                  className={styles.promptCard}
+                  onClick={() => handlePromptClick(p)}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
             <button
               className={styles.refreshPrompt}
               onClick={handleRefreshPrompts}
