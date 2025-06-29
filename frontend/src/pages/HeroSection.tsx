@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/HeroSection.module.css";
 import { ChatHero } from "../components/Chat";
-import avatarSrc from "../assets/avatar.png";
+import avatarSrc from "../assets/avatar.svg";
 import Contacts from '../components/Contacts';
 
 const PROMPTS = [

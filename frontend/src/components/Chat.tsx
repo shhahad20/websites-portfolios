@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from '../styles/Chat.module.css';
-import avatarSrc from '../assets/avatar.png';
+import avatarSrc from '../assets/avatar.svg';
 
 type Message = {
   role: 'user' | 'bot';

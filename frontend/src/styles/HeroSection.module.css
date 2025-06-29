@@ -136,6 +136,7 @@ p{
   border-radius: 12px;
   resize: none;
   font-size: 1rem;
+  color: #333;
   background-color: white;
 }
 
@@ -190,6 +191,15 @@ p{
 }
 .authBtn:hover {
   background: #1E1E1E;
+}
+
+.authInput {
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background: #fff;
+  color: #333;
 }
 
 /* Responsive tweaks */

@@ -15,20 +15,20 @@ export default function AuthPage() {
             <input
               type="text"
               placeholder="Full Name"
-              style={{padding: '1rem', borderRadius: 12, border: '1px solid #ccc', fontSize: '1rem'}}
+              className={styles.authInput}
               required
             />
           )}
           <input
             type="email"
             placeholder="Email"
-            style={{padding: '1rem', borderRadius: 12, border: '1px solid #ccc', fontSize: '1rem'}}
+            className={styles.authInput}
             required
           />
           <input
             type="password"
             placeholder="Password"
-            style={{padding: '1rem', borderRadius: 12, border: '1px solid #ccc', fontSize: '1rem'}}
+            className={styles.authInput}
             required
           />
           <button
