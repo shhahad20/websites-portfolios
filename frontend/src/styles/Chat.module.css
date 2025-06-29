@@ -148,6 +148,7 @@
   border-radius: 12px;
   resize: none;
   font-size: 1rem;
+  background-color: white;
 }
 
 .charCount {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "../styles/HeroSection.module.css";
 import { ChatHero } from "../components/Chat";
 import avatarSrc from "../assets/avatar.png";
+import Contacts from '../components/Contacts';
 
 const PROMPTS = [
   "Tell me about last Noura’s projects",
@@ -134,6 +135,9 @@ export const HeroSection: React.FC = () => {
           </form>
         </div>
         {chatMode && initialUserMsg && <ChatHero initialUserMsg={initialUserMsg} />}
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', marginTop: '2.5rem' }}>
+          <Contacts />
+        </div>
       </div>
     </section>
   );
