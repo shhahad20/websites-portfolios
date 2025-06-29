@@ -4,6 +4,7 @@ import { HeroSection } from './pages/HeroSection';
 import About from './pages/About';
 import AuthPage from './pages/AuthPage';
 import Footer from './components/Footer';
+import ContactUs from './pages/ContactUs';
 
 function App() {
 
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<HeroSection />} />
         <Route path="/about" element={<About />} />
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/contact" element={<ContactUs />} />
       </Routes>
       <Footer />
     </BrowserRouter>
