@@ -1,0 +1,35 @@
+.footer {
+  width: 100%;
+  /* background: #f7f7f7; */
+  color: #434343;
+  padding: 1.2rem 0;
+  border-top: 1px solid #e0e0e0;
+  margin-top: auto;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
+.footerContent {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.78rem;
+  gap: 1rem;
+  padding: 0 1.5rem;
+}
+
+.contactLink a {
+  color: #434343;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.2s;
+  font-size: 0.78rem;
+}
+.contactLink a:hover {
+  color: #1E1E1E;
+}
