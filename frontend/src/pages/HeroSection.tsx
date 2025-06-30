@@ -51,7 +51,7 @@ export const HeroSection: React.FC = () => {
         <div className={styles.titleRow}>
           <img src={avatarSrc} alt="Noura" className={styles.avatarHero} />
           <h1 className={chatMode ? styles.titleSmall : styles.title}>
-            Hi there, Mohammed
+            Hi there, {typeof window !== 'undefined' && localStorage.getItem('userName') ? localStorage.getItem('userName') : 'Mohammed'}
           </h1>
         </div>
         <div className={chatMode ? styles.hideSmooth : ""}>
