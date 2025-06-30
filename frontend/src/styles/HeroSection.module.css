@@ -273,11 +273,29 @@ p {
     margin-top: 0.3rem;
   }
   .inputWrapper {
+      margin: 0 2rem;
     margin-top: 2rem;
-    padding: 0 2rem;
+    flex-direction: column;
+    align-items: stretch;
+
   }
   .textInput {
     min-height: 4.5rem;
     font-size: 12px;
+    padding-right: 3.5rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .charCount {
+    right: 3rem;
+    bottom: 1.1rem;
+    font-size: 12px;
+    height: 24px;
+  }
+  .sendBtn {
+    right: 0.7rem;
+    bottom: 1rem;
+    height: 24px;
+    font-size: 1.1rem;
   }
 }
