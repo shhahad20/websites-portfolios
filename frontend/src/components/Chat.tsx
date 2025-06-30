@@ -25,8 +25,43 @@ export const ChatHero: React.FC<ChatHeroProps> = ({ initialUserMsg }) => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Respond to initial user message
+  useEffect(() => {
+    if (
+      initialUserMsg &&
+      messages.length === 1 &&
+      messages[0].role === 'user'
+    ) {
+      setTimeout(() => {
+        setMessages((m) =>
+          m.some((msg) => msg.role === 'bot')
+            ? m
+            : [
+                ...m,
+                {
+                  role: 'bot',
+                  text:
+                    "You're most welcome! If you have any more questions about Noura, don't hesitate to ask. 😊",
+                },
+              ]
+        );
+      }, 600);
+    }
+  }, [initialUserMsg, messages]);
+
   const sendMessage = (text: string) => {
     if (!text.trim()) return;
+    // Prevent double bot response for initial message
+    if (
+      initialUserMsg &&
+      messages.length === 1 &&
+      messages[0].role === 'user' &&
+      text === initialUserMsg &&
+      messages.some((msg) => msg.role === 'bot')
+    ) {
+      setInput('');
+      return;
+    }
     setMessages((m) => [...m, { role: 'user', text }]);
     setInput('');
     setTimeout(() => {
