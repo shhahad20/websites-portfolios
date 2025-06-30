@@ -38,7 +38,8 @@
 
   display: inline-block;
   padding: var(--size-2) var(--size-4);
-  border-radius: var(--radius-5);
+  /* border-radius: var(--radius-5); */
+  border-radius: 12px;
   margin: 0;
   /* color: var(--gray-0); */
     color: #333;
@@ -79,4 +80,28 @@
 
 .contactsList a:focus-visible {
   outline-color: transparent;
+}
+
+.contactsRow {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.copyUrlBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  color: #434343;
+  font-weight: 500;
+  transition: background 0.2s, border 0.2s;
+}
+.copyUrlBtn:hover {
+  background: #f5f5f5;
+  border: 1px solid #434343;
 }
