@@ -28,17 +28,21 @@
 .contactsNav > button {
   position: absolute;
   left: 0;
-  background: red;
+  background: #434343;
   z-index: var(--count);
 }
-
+ 
 .contactsList a {
-  background: hsl(0 0% 60% / 0.18);
+  /* background: hsl(0 0% 60% / 0.18); */
+    background: rgba(254, 222, 132, 0.4);
+
   display: inline-block;
   padding: var(--size-2) var(--size-4);
   border-radius: var(--radius-5);
   margin: 0;
-  color: var(--gray-0);
+  /* color: var(--gray-0); */
+    color: #333;
+
   font-size: var(--font-size-1);
   font-weight: var(--font-weight-0);
   backdrop-filter: blur(40px);
@@ -61,6 +65,7 @@
   grid-auto-flow: column;
   grid-template-columns: 16px 1fr;
   gap: 0.25rem;
+  color: #434343;
 }
 
 .contactsList li:is(:nth-of-type(2), :nth-of-type(3), :nth-of-type(4)) span {
