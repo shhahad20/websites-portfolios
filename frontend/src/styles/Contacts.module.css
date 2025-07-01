@@ -32,6 +32,7 @@
   z-index: var(--count);
 }
 
+
 .contactsList a {
   /* background: hsl(0 0% 60% / 0.18); */
   background: rgba(254, 222, 132, 0.4);
@@ -43,7 +44,11 @@
   margin: 0;
   /* color: var(--gray-0); */
   color: #333;
-
+  display: flex;
+  /* gap: 3rem; */
+  color: #333;
+  font-weight: 600;
+  align-items: center;
   font-size: var(--font-size-1);
   font-weight: var(--font-weight-0);
   backdrop-filter: blur(40px);
@@ -54,12 +59,25 @@
   color: var(--gray-0);
 }
 
-.contactsList svg {
-  height: 24px;
-  aspect-ratio: 1;
-  fill: currentColor;
+/* .contactsList a span svg {
+  width : 20px !important;
+  height: 20px !important;
+
+} */
+.iconWrapper {
+  width: 15px;
+  height: 15px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
+.iconWrapper svg {
+  width: 100%;
+  height: 100%;
+    aspect-ratio: 1;
+  fill: currentColor;
+}
 .contactsList span {
   display: grid;
   align-items: center;

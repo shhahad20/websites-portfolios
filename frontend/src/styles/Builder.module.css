@@ -1,0 +1,117 @@
+.builderSection {
+  max-width: 600px;
+  margin: 3rem auto 2rem auto;
+  /* background: var(--builder-bg, #fff); */
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.07);
+  padding: 2.5rem 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--primary-color, #434343);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+
+label {
+  min-width: 120px;
+  font-weight: 500;
+  color: #434343;
+}
+
+input[type="color"] {
+  width: 40px;
+  height: 40px;
+  /* border: none; */
+  border: 1px solid #e0e0e0;
+  background: none;
+  cursor: pointer;
+}
+
+.avatarPreview {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.promptsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  flex: 1;
+}
+
+.promptInput {
+  padding: 0.5rem 1rem;
+  border-radius: 0.7rem;
+  border: 1px solid #e0e0e0;
+  font-size: 1rem;
+  width: 100%;
+  background: #fafbfc;
+  transition: border 0.2s;
+  color: #434343;
+}
+.promptInput:focus {
+  border: 1.5px solid var(--primary-color, #434343);
+  outline: none;
+}
+
+.socialsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  flex: 1;
+}
+.socialRow {
+  display: flex;
+  gap: 0.7rem;
+}
+.socialInput {
+  padding: 0.5rem 1rem;
+  border-radius: 0.7rem;
+  border: 1px solid #e0e0e0;
+  font-size: 1rem;
+  width: 45%;
+  background: #fafbfc;
+  transition: border 0.2s;
+  color: #434343;
+}
+.socialInput:focus {
+  border: 1.5px solid var(--primary-color, #434343);
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .builderSection {
+    padding: 1.2rem 0.5rem;
+    max-width: 98vw;
+  }
+  .title {
+    font-size: 1.4rem;
+  }
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+  .avatarPreview {
+    width: 44px;
+    height: 44px;
+  }
+}

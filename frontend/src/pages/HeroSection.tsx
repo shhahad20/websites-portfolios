@@ -3,21 +3,10 @@ import styles from "../styles/HeroSection.module.css";
 import { ChatHero } from "../components/Chat";
 import avatarSrc from "../assets/avatar.svg";
 import Contacts from '../components/Contacts';
-
-const PROMPTS = [
-  "Tell me about last Noura’s projects",
-  "What is Noura’s educations?",
-  "Noura’s Contact info",
-  "What are Noura’s technical skills?",
-  "List Noura’s certifications.",
-  "Describe Noura’s work experience.",
-  "What are Noura’s hobbies?",
-  "Share a fun fact about Noura.",
-  "What languages does Noura speak?",
-  "What is Noura’s favorite project?",
-];
+import { useCustomization } from '../context/CustomizationContext';
 
 export const HeroSection: React.FC = () => {
+  const { avatar, prompts, primaryColor } = useCustomization();
   const [input, setInput] = useState("");
   const [promptStart, setPromptStart] = useState(0);
   const [chatMode, setChatMode] = useState(false);
@@ -28,8 +17,7 @@ export const HeroSection: React.FC = () => {
   };
 
   const handleRefreshPrompts = () => {
-    // Show next 3 prompts, wrap around if at end
-    setPromptStart((prev) => (prev + 3) % PROMPTS.length);
+    setPromptStart((prev) => (prev + 3) % prompts.length);
   };
 
   const handleSend = (e: React.FormEvent) => {
@@ -39,17 +27,19 @@ export const HeroSection: React.FC = () => {
   };
 
   const visiblePrompts =
-    PROMPTS.slice(promptStart, promptStart + 3).length === 3
-      ? PROMPTS.slice(promptStart, promptStart + 3)
-      : PROMPTS.slice(promptStart).concat(
-          PROMPTS.slice(0, 3 - (PROMPTS.length - promptStart))
-        );
+    prompts.length > 0
+      ? (prompts.slice(promptStart, promptStart + 3).length === 3
+        ? prompts.slice(promptStart, promptStart + 3)
+        : prompts.slice(promptStart).concat(
+            prompts.slice(0, 3 - (prompts.length - promptStart))
+          ))
+      : [];
 
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} style={{ '--primary-color': primaryColor } as React.CSSProperties}>
       <div className={styles.content}>
         <div className={styles.titleRow}>
-          <img src={avatarSrc} alt="Noura" className={styles.avatarHero} />
+          <img src={avatar || avatarSrc} alt="Noura" className={styles.avatarHero} />
           <h1 className={chatMode ? styles.titleSmall : styles.title}>
             Hi there, {typeof window !== 'undefined' && localStorage.getItem('userName') ? localStorage.getItem('userName') : 'Mohammed'}
           </h1>

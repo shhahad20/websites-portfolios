@@ -6,20 +6,24 @@ import About from './pages/About';
 import AuthPage from './pages/AuthPage';
 import Footer from './components/Footer';
 import ContactUs from './pages/ContactUs';
+import { CustomizationProvider } from './context/CustomizationContext';
+import Builder from './pages/Builder';
 
 function App() {
-
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<EnterName />} />
-        <Route path="/home" element={<HeroSection />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/contact" element={<ContactUs />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
+    <CustomizationProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<EnterName />} />
+          <Route path="/home" element={<HeroSection />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/builder" element={<Builder />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    </CustomizationProvider>
   );
 }
 
