@@ -1,5 +1,5 @@
-@import url('https://unpkg.com/open-props/open-props.min.css');
-@import url('https://unpkg.com/open-props/normalize.min.css');
+@import url("https://unpkg.com/open-props/open-props.min.css");
+@import url("https://unpkg.com/open-props/normalize.min.css");
 
 .contactsNav {
   position: relative;
@@ -31,10 +31,10 @@
   background: #434343;
   z-index: var(--count);
 }
- 
+
 .contactsList a {
   /* background: hsl(0 0% 60% / 0.18); */
-    background: rgba(254, 222, 132, 0.4);
+  background: rgba(254, 222, 132, 0.4);
 
   display: inline-block;
   padding: var(--size-2) var(--size-4);
@@ -42,7 +42,7 @@
   border-radius: 12px;
   margin: 0;
   /* color: var(--gray-0); */
-    color: #333;
+  color: #333;
 
   font-size: var(--font-size-1);
   font-weight: var(--font-weight-0);
@@ -73,7 +73,9 @@
   opacity: var(--active, 0);
 }
 
-.contactsList li:is(:nth-of-type(2), :nth-of-type(3), :nth-of-type(4)) a:is(:hover, :focus) {
+.contactsList
+  li:is(:nth-of-type(2), :nth-of-type(3), :nth-of-type(4))
+  a:is(:hover, :focus) {
   background: var(--gray-0);
   color: var(--gray-12);
 }
@@ -104,4 +106,82 @@
 .copyUrlBtn:hover {
   background: #f5f5f5;
   border: 1px solid #434343;
+}
+
+@media (max-width: 640px) {
+  .contactsRow {
+    /* stack the nav and the copy button */
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  .contactsNav {
+    position: relative; /* ensure container for the absolutely‑positioned items */
+    overflow: hidden; /* clip them when they sit behind */
+    height: auto;
+    /* padding: 1rem;           */
+  }
+  .contactsNav:hover,
+  .contactsNav:focus-within {
+    overflow: visible;
+  }
+  .contactsList {
+    /* grid-auto-flow: row;
+    grid-template-columns: none;
+    grid-template-rows: 
+      auto 
+      repeat(3, calc((var(--active, 0) * 30px) + 10px));
+          transition: grid-template-rows 0.35s var(--ease-elastic-1);
+    width: 100%;
+    gap: 0.5rem; */
+    /* border: 1px solid red; */
+
+    /* turn off the grid here */
+    display: block;
+    position: relative; /* for absolutely‑positioned children */
+    width: 100%;
+  }
+  .copyUrlBtn {
+    font-size: 12px;
+  }
+  .contactsList span {
+    font-size: 12px;
+  }
+  .contactsList li {
+    padding: 0.2rem 0;
+  }
+  /* Keep the FIRST item static (in flow) */
+  .contactsList li:nth-child(1) {
+    position: relative; /* could also omit—relative is fine */
+    transform: none; /* no translateY */
+    z-index: calc(var(--count) - 1);
+    transition: none;
+  }
+
+  /* ITEMS 2–4 sit absolutely at top-left, behind #1 */
+  .contactsList li:nth-child(n + 2) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: calc(var(--count) - var(--index));
+    transition: transform 0.35s var(--ease-elastic-1);
+  }
+
+  /* Slide them down by multiples of 100% as --active toggles */
+  .contactsList li:nth-child(2) {
+    transform: translateY(calc(var(--active, 0) * 100%));
+  }
+  .contactsList li:nth-child(3) {
+    transform: translateY(calc(var(--active, 0) * 200%));
+  }
+  .contactsList li:nth-child(4) {
+    transform: translateY(calc(var(--active, 0) * 300%));
+  }
+  .contactsList li a {
+    display: block;
+    width: 100%;
+    /* padding: 0.75rem 1rem;   */
+    text-align: left;
+  }
 }

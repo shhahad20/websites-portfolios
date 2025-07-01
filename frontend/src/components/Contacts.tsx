@@ -2,7 +2,7 @@ import React from "react";
 import styles from "../styles/Contacts.module.css";
 
 const contacts = [
-	{
+	{ 
 		label: "Socials",
 		href: "#",
 		icon: (
@@ -114,7 +114,6 @@ export default function Contacts() {
 					<path d="M5 15V5a2 2 0 0 1 2-2h10" />
 				</svg>
 				<span
-					style={{ fontSize: "0.97rem", color: "#434343" }}
 				>
 					Copy URL
 				</span>
