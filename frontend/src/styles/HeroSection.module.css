@@ -69,6 +69,25 @@ p {
   font-weight: 600;
   color: #434343;
 }
+.avatarWrapper {
+  /* set whatever size you need */
+  width: 80px;
+  height: 80px;
+  /* border: 2px solid #434343; */
+  border-radius: 50%;       /* makes it circular */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* make the img fill the wrapper */
+.avatarHero {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+}
 .smtitle {
   font-size: 0.87rem;
   color: #434343;
@@ -224,10 +243,12 @@ p {
     align-items: center;
     gap: 0.5rem;
   }
-  .avatarHero {
-    display: block;
-    margin: 0 auto 0.5rem auto;
+  .avatarWrapper {
+    width: 60px;
+    height: 60px;
+    /* border-width: 1px; */
   }
+
   .content {
     align-items: center;
     text-align: center;
