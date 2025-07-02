@@ -12,17 +12,21 @@ import Builder from './pages/Builder';
 function App() {
   return (
     <CustomizationProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<EnterName />} />
-          <Route path="/home" element={<HeroSection />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/contact" element={<ContactUs />} />
-          <Route path="/builder" element={<Builder />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <BrowserRouter>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <Routes>
+              <Route path="/" element={<EnterName />} />
+              <Route path="/home" element={<HeroSection />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/contact" element={<ContactUs />} />
+              <Route path="/builder" element={<Builder />} />
+            </Routes>
+          </div>
+          <Footer />
+        </BrowserRouter>
+      </div>
     </CustomizationProvider>
   );
 }

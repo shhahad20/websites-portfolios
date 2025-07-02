@@ -165,9 +165,9 @@
   .contactsList span {
     font-size: 12px;
   }
-  .contactsList li {
+  /* .contactsList li {
     padding: 0.2rem 0;
-  }
+  } */
   /* Keep the FIRST item static (in flow) */
   .contactsList li:nth-child(1) {
     position: relative; /* could also omit—relative is fine */
