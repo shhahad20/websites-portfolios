@@ -4,8 +4,7 @@
   overflow: hidden;
   padding: 4rem 2rem;
   /* gradient background */
-    background: radial-gradient(circle at top, #FDC031 -10%, #fff 50%);
-
+    /* background: radial-gradient(circle at top, #FDC031 -10%, #fff 50%); */
 }
 
 /* noise overlay */

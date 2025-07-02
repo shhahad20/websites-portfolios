@@ -14,6 +14,10 @@ interface CustomizationContextType {
   setPrompts: (prompts: string[]) => void;
   socials: Social[];
   setSocials: (socials: Social[]) => void;
+  bgType: 'solid' | 'gradient';
+  setBgType: (type: 'solid' | 'gradient') => void;
+  gradient: { from: string; to: string; direction: string };
+  setGradient: (g: { from: string; to: string; direction: string }) => void;
 }
 
 const defaultPrompts = [
@@ -49,6 +53,17 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
     }
     return defaultSocials;
   });
+  const [bgType, setBgType] = useState<'solid' | 'gradient'>(() => {
+    const t = localStorage.getItem('bgType');
+    return t === 'gradient' ? 'gradient' : 'solid';
+  });
+  const [gradient, setGradient] = useState<{ from: string; to: string; direction: string }>(() => {
+    try {
+      const g = localStorage.getItem('gradient');
+      if (g) return JSON.parse(g);
+    } catch {}
+    return { from: '#FDC031', to: '#ffffff', direction: 'to bottom' };
+  });
 
   // Persist changes to localStorage
   useEffect(() => {
@@ -58,8 +73,26 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     localStorage.setItem("bgColor", JSON.stringify(bgColor));
-    document.body.style.background = bgColor;
-  }, [bgColor]);
+    if (bgType === 'solid') {
+      document.body.style.background = bgColor;
+    }
+  }, [bgColor, bgType]);
+
+  useEffect(() => {
+    localStorage.setItem('bgType', bgType);
+    if (bgType === 'gradient') {
+      document.body.style.background = `linear-gradient(${gradient.direction}, ${gradient.from}, ${gradient.to})`;
+    } else {
+      document.body.style.background = bgColor;
+    }
+  }, [bgType, gradient, bgColor]);
+
+  useEffect(() => {
+    localStorage.setItem('gradient', JSON.stringify(gradient));
+    if (bgType === 'gradient') {
+      document.body.style.background = `linear-gradient(${gradient.direction}, ${gradient.from}, ${gradient.to})`;
+    }
+  }, [gradient, bgType]);
 
   useEffect(() => {
     if (avatar) localStorage.setItem("avatar", avatar);
@@ -79,7 +112,9 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
       bgColor, setBgColor,
       avatar, setAvatar,
       prompts, setPrompts,
-      socials, setSocials
+      socials, setSocials,
+      bgType, setBgType,
+      gradient, setGradient
     }}>
       {children}
     </CustomizationContext.Provider>

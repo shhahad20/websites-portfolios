@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "../styles/Builder.module.css";
 import { useCustomization } from "../context/CustomizationContext";
 
 export default function Builder() {
+  const navigate = useNavigate();
+
   const {
     primaryColor,
     setPrimaryColor,
@@ -14,6 +17,10 @@ export default function Builder() {
     setPrompts,
     socials,
     setSocials,
+    bgType,
+    setBgType,
+    gradient,
+    setGradient,
   } = useCustomization();
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,19 +42,76 @@ export default function Builder() {
     setSocials(socials.map((s, idx) => idx === i ? { ...s, [field]: value } : s));
   };
 
+  // Compute background style
+  const backgroundStyle = bgType === 'solid'
+    ? { background: bgColor }
+    : { background: `linear-gradient(${gradient.direction}, ${gradient.from}, ${gradient.to})` };
+
+  // Save handler (simulate saving to localStorage or API)
+  const [saveStatus, setSaveStatus] = React.useState<string | null>(null);
+  const handleSave = () => {
+    // Here you could call an API or save to localStorage
+    const data = {
+      primaryColor,
+      bgType,
+      bgColor,
+      gradient,
+      avatar,
+      prompts,
+      socials,
+    };
+    try {
+      localStorage.setItem('builderSettings', JSON.stringify(data));
+      setSaveStatus('Saved!');
+      setTimeout(() => {
+        setSaveStatus(null);
+        navigate('/home');
+      }, 800);
+    } catch {
+      setSaveStatus('Failed to save');
+    }
+  };
+
   return (
-    
-      <section className={styles.builderSection}>
-        <div className={styles.builderContainer}>
+    <section className={styles.builderSection} style={backgroundStyle}>
+      <div className={styles.builderContainer}>
         <h1 className={styles.title}>Builder</h1>
         <div className={styles.row}>
           <label>Primary Color:</label>
           <input type="color" value={primaryColor} onChange={e => setPrimaryColor(e.target.value)} />
         </div>
         <div className={styles.row}>
-          <label>Background Color:</label>
-          <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} />
+          <label>Background Type:</label>
+          <select value={bgType} onChange={e => setBgType(e.target.value as 'solid' | 'gradient')} className={styles.promptInput} style={{maxWidth:180}}>
+            <option value="solid">Solid</option>
+            <option value="gradient">Gradient</option>
+          </select>
         </div>
+        {bgType === 'solid' ? (
+          <div className={styles.row}>
+            <label>Background Color:</label>
+            <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} />
+          </div>
+        ) : (
+          <>
+            <div className={styles.row}>
+              <label>Gradient From:</label>
+              <input type="color" value={gradient.from} onChange={e => setGradient({ ...gradient, from: e.target.value })} />
+            </div>
+            <div className={styles.row}>
+              <label>Gradient To:</label>
+              <input type="color" value={gradient.to} onChange={e => setGradient({ ...gradient, to: e.target.value })} />
+            </div>
+            <div className={styles.row}>
+              <label>Direction:</label>
+              <select value={gradient.direction} onChange={e => setGradient({ ...gradient, direction: e.target.value })} className={styles.promptInput} style={{maxWidth:180}}>
+                <option value="to bottom">Top to Bottom</option>
+                <option value="to right">Left to Right</option>
+                <option value="135deg">Diagonal</option>
+              </select>
+            </div>
+          </>
+        )}
         <div className={styles.row}>
           <label>Avatar Image:</label>
           <input type="file" accept="image/*" onChange={handleAvatarChange} />
@@ -117,8 +181,24 @@ export default function Builder() {
             ))}
           </div>
         </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 24 }}>
+          <button type="button" onClick={handleSave} style={{
+            padding: '0.7rem 2.2rem',
+            borderRadius: 8,
+            border: 'none',
+            background: primaryColor,
+            color: '#fff',
+            fontWeight: 600,
+            fontSize: 16,
+            cursor: 'pointer',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
+            transition: 'background 0.2s',
+          }}>
+            Save
+          </button>
+          {saveStatus && <span style={{ color: saveStatus === 'Saved!' ? 'green' : 'red', fontWeight: 500 }}>{saveStatus}</span>}
         </div>
-      </section>
-    
+      </div>
+    </section>
   );
 }

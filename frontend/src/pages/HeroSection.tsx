@@ -6,7 +6,7 @@ import Contacts from '../components/Contacts';
 import { useCustomization } from '../context/CustomizationContext';
 
 export const HeroSection: React.FC = () => {
-  const { avatar, prompts, primaryColor } = useCustomization();
+  const { avatar, prompts, primaryColor, bgType, bgColor, gradient } = useCustomization();
   const [input, setInput] = useState("");
   const [promptStart, setPromptStart] = useState(0);
   const [chatMode, setChatMode] = useState(false);
@@ -35,8 +35,11 @@ export const HeroSection: React.FC = () => {
           ))
       : [];
 
+  // Only set --primary-color for this section, background handled globally
+  const heroStyle = { '--primary-color': primaryColor } as React.CSSProperties;
+
   return (
-    <section className={styles.hero} style={{ '--primary-color': primaryColor } as React.CSSProperties}>
+    <section className={styles.hero} style={heroStyle}>
       <div className={styles.content}>
         <div className={styles.titleRow}>
           <img src={avatar || avatarSrc} alt="Noura" className={styles.avatarHero} />

@@ -1,6 +1,6 @@
 .footer {
   width: 100%;
-  background: #f7f7f7;
+  background: inherit;
   color: #434343;
   padding: 1.2rem 0;
   border-top: 1px solid #e0e0e0;
