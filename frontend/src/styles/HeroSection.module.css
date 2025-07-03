@@ -1,10 +1,14 @@
-
+:root {
+  --input-bg: #fff;
+  --input-border: #ccc;
+  --social-btn-bg: #434343;
+}
 .hero {
   position: relative;
   overflow: hidden;
   padding: 4rem 2rem;
   /* gradient background */
-    /* background: radial-gradient(circle at top, #FDC031 -10%, #fff 50%); */
+  /* background: radial-gradient(circle at top, #FDC031 -10%, #fff 50%); */
 }
 
 /* noise overlay */
@@ -74,7 +78,7 @@ p {
   width: 80px;
   height: 80px;
   /* border: 2px solid #434343; */
-  border-radius: 50%;       /* makes it circular */
+  border-radius: 50%; /* makes it circular */
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -150,12 +154,16 @@ p {
   min-height: 3.5rem;
   padding: 1rem;
   padding-right: 3.5rem;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
+  border: 1px solid var(--input-border);
+  color: var(--primary-color);
+  background-color: var(--input-bg);
+
   border-radius: 12px;
   resize: none;
   font-size: 1rem;
-  color: #333;
-  background-color: white;
+  /* color: #333; */
+  /* background-color: white; */
 }
 
 .charCount {
@@ -183,7 +191,10 @@ p {
   align-items: center;
   height: 30px;
 }
-
+.sendBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 .hideSmooth {
   opacity: 0;
   max-height: 0;
@@ -231,7 +242,6 @@ p {
     /* padding-left: 0.5rem;
     padding-right: 0.5rem; */
     /* padding: 0 1rem; */
-
   }
   .title {
     font-size: 15px;
@@ -283,9 +293,9 @@ p {
     padding: 0.5rem 0.7rem;
     /* min-width: 120px; */
     /* max-width: 180px; */
-        min-width: 180px;
+    min-width: 180px;
 
-        max-width: 200px;
+    max-width: 200px;
     border-radius: 8px;
   }
   .refreshPrompt {
@@ -293,11 +303,10 @@ p {
     margin-top: 0.3rem;
   }
   .inputWrapper {
-      margin: 0 2rem;
+    margin: 0 2rem;
     margin-top: 2rem;
     flex-direction: column;
     align-items: stretch;
-
   }
   .textInput {
     min-height: 4.5rem;

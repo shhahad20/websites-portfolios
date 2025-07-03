@@ -1,4 +1,10 @@
-import React, { createContext, useState, useEffect, ReactNode, useContext } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useContext,
+} from "react";
 import { Outlet } from "react-router-dom";
 
 // Types
@@ -15,10 +21,16 @@ interface CustomizationContextType {
   setPrompts: (prompts: string[]) => void;
   socials: Social[];
   setSocials: (socials: Social[]) => void;
-  bgType: 'solid' | 'gradient';
-  setBgType: (type: 'solid' | 'gradient') => void;
+  bgType: "solid" | "gradient";
+  setBgType: (type: "solid" | "gradient") => void;
   gradient: { from: string; to: string; direction: string };
   setGradient: (g: { from: string; to: string; direction: string }) => void;
+  inputColor: string;
+  setInputColor: (c: string) => void;
+  borderColor: string;
+  setBorderColor: (c: string) => void;
+  socialBtnColor: string;
+  setSocialBtnColor: (c: string) => void;
 }
 
 const defaultPrompts = [
@@ -34,13 +46,34 @@ const defaultSocials: Social[] = [
   { label: "CodePen", href: "https://codepen.io", icon: "codepen" },
 ];
 
-export const CustomizationContext = createContext<CustomizationContextType | undefined>(undefined);
+export const CustomizationContext = createContext<
+  CustomizationContextType | undefined
+>(undefined);
 
 export function CustomizationProvider({ children }: { children: ReactNode }) {
-  const [primaryColor, setPrimaryColor] = useState(() => JSON.parse(localStorage.getItem("primaryColor") || '"#434343"'));
-  const [bgColor, setBgColor] = useState(() => JSON.parse(localStorage.getItem("bgColor") || '"#fff"'));
-  const [avatar, setAvatar] = useState<string | null>(() => localStorage.getItem("avatar"));
-  const [prompts, setPrompts] = useState<string[]>(() => JSON.parse(localStorage.getItem("prompts") || "null") || defaultPrompts);
+  const [primaryColor, setPrimaryColor] = useState(() =>
+    JSON.parse(localStorage.getItem("primaryColor") || '"#434343"')
+  );
+  const [bgColor, setBgColor] = useState(() =>
+    JSON.parse(localStorage.getItem("bgColor") || '"#fff"')
+  );
+  const [avatar, setAvatar] = useState<string | null>(() =>
+    localStorage.getItem("avatar")
+  );
+  const [inputColor, setInputColor] = useState<string>(() =>
+    JSON.parse(localStorage.getItem("inputColor") || '"#fff"')
+  );
+  const [borderColor, setBorderColor] = useState<string>(() =>
+    JSON.parse(localStorage.getItem("borderColor") || '"#ccc"')
+  );
+  const [socialBtnColor, setSocialBtnColor] = useState<string>(() =>
+    JSON.parse(localStorage.getItem("socialBtnColor") || '"#434343"')
+  );
+
+  const [prompts, setPrompts] = useState<string[]>(
+    () =>
+      JSON.parse(localStorage.getItem("prompts") || "null") || defaultPrompts
+  );
   const [socials, setSocials] = useState<Social[]>(() => {
     const raw = localStorage.getItem("socials");
     if (raw) {
@@ -54,36 +87,49 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
     }
     return defaultSocials;
   });
-  const [bgType, setBgType] = useState<'solid' | 'gradient'>(() => {
-    const t = localStorage.getItem('bgType');
-    return t === 'gradient' ? 'gradient' : 'solid';
+  const [bgType, setBgType] = useState<"solid" | "gradient">(() => {
+    const t = localStorage.getItem("bgType");
+    return t === "gradient" ? "gradient" : "solid";
   });
-  const [gradient, setGradient] = useState<{ from: string; to: string; direction: string }>(() => {
+  const [gradient, setGradient] = useState<{
+    from: string;
+    to: string;
+    direction: string;
+  }>(() => {
     try {
-      const g = localStorage.getItem('gradient');
+      const g = localStorage.getItem("gradient");
       if (g) return JSON.parse(g);
     } catch {
       // Ignore JSON parse errors and use default gradient
     }
-    return { from: '#FDC031', to: '#ffffff', direction: 'to bottom' };
+    return { from: "#FDC031", to: "#ffffff", direction: "to bottom" };
   });
 
   // Persist changes to localStorage
   useEffect(() => {
     localStorage.setItem("primaryColor", JSON.stringify(primaryColor));
-    document.documentElement.style.setProperty('--primary-color', primaryColor);
+    document.documentElement.style.setProperty("--primary-color", primaryColor);
   }, [primaryColor]);
 
   useEffect(() => {
     localStorage.setItem("bgColor", JSON.stringify(bgColor));
-    if (bgType === 'solid') {
+    if (bgType === "solid") {
       document.body.style.background = bgColor;
     }
   }, [bgColor, bgType]);
+  useEffect(() => {
+    localStorage.setItem("inputColor", JSON.stringify(inputColor));
+  }, [inputColor]);
+  useEffect(() => {
+    localStorage.setItem("borderColor", JSON.stringify(borderColor));
+  }, [borderColor]);
+  useEffect(() => {
+    localStorage.setItem("socialBtnColor", JSON.stringify(socialBtnColor));
+  }, [socialBtnColor]);
 
   useEffect(() => {
-    localStorage.setItem('bgType', bgType);
-    if (bgType === 'gradient') {
+    localStorage.setItem("bgType", bgType);
+    if (bgType === "gradient") {
       document.body.style.background = `linear-gradient(${gradient.direction}, ${gradient.from}, ${gradient.to})`;
     } else {
       document.body.style.background = bgColor;
@@ -91,8 +137,8 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
   }, [bgType, gradient, bgColor]);
 
   useEffect(() => {
-    localStorage.setItem('gradient', JSON.stringify(gradient));
-    if (bgType === 'gradient') {
+    localStorage.setItem("gradient", JSON.stringify(gradient));
+    if (bgType === "gradient") {
       document.body.style.background = `linear-gradient(${gradient.direction}, ${gradient.from}, ${gradient.to})`;
     }
   }, [gradient, bgType]);
@@ -110,22 +156,40 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
   }, [socials]);
 
   return (
-    <CustomizationContext.Provider value={{
-      primaryColor, setPrimaryColor,
-      bgColor, setBgColor,
-      avatar, setAvatar,
-      prompts, setPrompts,
-      socials, setSocials,
-      bgType, setBgType,
-      gradient, setGradient
-    }}>
+    <CustomizationContext.Provider
+      value={{
+        primaryColor,
+        setPrimaryColor,
+        bgColor,
+        setBgColor,
+        avatar,
+        setAvatar,
+        prompts,
+        setPrompts,
+        socials,
+        setSocials,
+        bgType,
+        setBgType,
+        gradient,
+        setGradient,
+        inputColor,
+        setInputColor,
+        borderColor,
+        setBorderColor,
+        socialBtnColor,
+        setSocialBtnColor,
+      }}
+    >
       {children}
     </CustomizationContext.Provider>
   );
 }
 export function useCustomization() {
   const ctx = useContext(CustomizationContext);
-  if (!ctx) throw new Error("useCustomization must be used within CustomizationProvider");
+  if (!ctx)
+    throw new Error(
+      "useCustomization must be used within CustomizationProvider"
+    );
   return ctx;
 }
 // useCustomization hook moved to a separate file for Fast Refresh compatibility.

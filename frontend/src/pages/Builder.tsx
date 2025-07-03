@@ -21,6 +21,12 @@ export default function Builder() {
     setBgType,
     gradient,
     setGradient,
+    inputColor,
+    setInputColor,
+    borderColor,
+    setBorderColor,
+    socialBtnColor,
+    setSocialBtnColor,
   } = useCustomization();
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,14 +44,26 @@ export default function Builder() {
     setPrompts(prompts.map((p, idx) => (idx === i ? value : p)));
   };
 
-  const handleSocialChange = (i: number, field: 'label' | 'href' | 'icon', value: string) => {
-    setSocials(socials.map((s, idx) => idx === i ? { ...s, [field]: value } : s));
+  const handleSocialChange = (
+    i: number,
+    field: "label" | "href" | "icon",
+    value: string
+  ) => {
+    setSocials(
+      socials.map((s, idx) => (idx === i ? { ...s, [field]: value } : s))
+    );
   };
 
   // Compute background style
-  const backgroundStyle = bgType === 'solid'
-    ? { background: bgColor }
-    : { background: `linear-gradient(${gradient.direction}, ${gradient.from}, ${gradient.to})` };
+  const backgroundStyle =
+    bgType === "solid"
+      ? { background: bgColor }
+      : {
+          background: `linear-gradient(${gradient.direction}, ${gradient.from}, ${gradient.to})`,
+          "--input-bg": inputColor,
+          "--input-border": borderColor,
+          "--social-btn-bg": socialBtnColor,
+        };
 
   // Save handler (simulate saving to localStorage or API)
   const [saveStatus, setSaveStatus] = React.useState<string | null>(null);
@@ -61,14 +79,14 @@ export default function Builder() {
       socials,
     };
     try {
-      localStorage.setItem('builderSettings', JSON.stringify(data));
-      setSaveStatus('Saved!');
+      localStorage.setItem("builderSettings", JSON.stringify(data));
+      setSaveStatus("Saved!");
       setTimeout(() => {
         setSaveStatus(null);
-        navigate('/home');
+        navigate("/home");
       }, 800);
     } catch {
-      setSaveStatus('Failed to save');
+      setSaveStatus("Failed to save");
     }
   };
 
@@ -78,33 +96,65 @@ export default function Builder() {
         <h1 className={styles.title}>Builder</h1>
         <div className={styles.row}>
           <label>Primary Color:</label>
-          <input type="color" value={primaryColor} onChange={e => setPrimaryColor(e.target.value)} />
+          <input
+            type="color"
+            value={primaryColor}
+            onChange={(e) => setPrimaryColor(e.target.value)}
+          />
         </div>
         <div className={styles.row}>
           <label>Background Type:</label>
-          <select value={bgType} onChange={e => setBgType(e.target.value as 'solid' | 'gradient')} className={styles.promptInput} style={{maxWidth:180}}>
+          <select
+            value={bgType}
+            onChange={(e) => setBgType(e.target.value as "solid" | "gradient")}
+            className={styles.promptInput}
+            style={{ maxWidth: 180 }}
+          >
             <option value="solid">Solid</option>
             <option value="gradient">Gradient</option>
           </select>
         </div>
-        {bgType === 'solid' ? (
+        {bgType === "solid" ? (
           <div className={styles.row}>
             <label>Background Color:</label>
-            <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} />
+            <input
+              type="color"
+              value={bgColor}
+              onChange={(e) => setBgColor(e.target.value)}
+            />
           </div>
         ) : (
           <>
             <div className={styles.row}>
               <label>Gradient From:</label>
-              <input type="color" value={gradient.from} onChange={e => setGradient({ ...gradient, from: e.target.value })} />
+              <input
+                type="color"
+                value={gradient.from}
+                onChange={(e) =>
+                  setGradient({ ...gradient, from: e.target.value })
+                }
+              />
             </div>
             <div className={styles.row}>
               <label>Gradient To:</label>
-              <input type="color" value={gradient.to} onChange={e => setGradient({ ...gradient, to: e.target.value })} />
+              <input
+                type="color"
+                value={gradient.to}
+                onChange={(e) =>
+                  setGradient({ ...gradient, to: e.target.value })
+                }
+              />
             </div>
             <div className={styles.row}>
               <label>Direction:</label>
-              <select value={gradient.direction} onChange={e => setGradient({ ...gradient, direction: e.target.value })} className={styles.promptInput} style={{maxWidth:180}}>
+              <select
+                value={gradient.direction}
+                onChange={(e) =>
+                  setGradient({ ...gradient, direction: e.target.value })
+                }
+                className={styles.promptInput}
+                style={{ maxWidth: 180 }}
+              >
                 <option value="to bottom">Top to Bottom</option>
                 <option value="to right">Left to Right</option>
                 <option value="135deg">Diagonal</option>
@@ -113,9 +163,26 @@ export default function Builder() {
           </>
         )}
         <div className={styles.row}>
+          <label>Input Background Color:</label>
+          <input type="color" value={inputColor} onChange={e => setInputColor(e.target.value)} />
+        </div>
+
+        <div className={styles.row}>
+          <label>Input / Border Color:</label>
+          <input type="color" value={borderColor} onChange={e => setBorderColor(e.target.value)} />
+        </div>
+
+        <div className={styles.row}>
+          <label>Social Button Color:</label>
+          <input type="color" value={socialBtnColor} onChange={e => setSocialBtnColor(e.target.value)} />
+        </div>
+
+        <div className={styles.row}>
           <label>Avatar Image:</label>
           <input type="file" accept="image/*" onChange={handleAvatarChange} />
-          {avatar && <img src={avatar} alt="avatar" className={styles.avatarPreview} />}
+          {avatar && (
+            <img src={avatar} alt="avatar" className={styles.avatarPreview} />
+          )}
         </div>
         <div className={styles.row}>
           <label>Prompts:</label>
@@ -124,7 +191,7 @@ export default function Builder() {
               <input
                 key={i}
                 value={p}
-                onChange={e => handlePromptChange(i, e.target.value)}
+                onChange={(e) => handlePromptChange(i, e.target.value)}
                 className={styles.promptInput}
               />
             ))}
@@ -139,32 +206,42 @@ export default function Builder() {
                 value="Socials"
                 disabled
                 className={styles.socialInput}
-                style={{ fontWeight: 600, background: '#f5f5f5', color: '#434343' }}
+                style={{
+                  fontWeight: 600,
+                  background: "#f5f5f5",
+                  color: "#434343",
+                }}
               />
               <input
                 value="#"
                 disabled
                 className={styles.socialInput}
-                style={{ background: '#f5f5f5', color: '#aaa' }}
+                style={{ background: "#f5f5f5", color: "#aaa" }}
               />
             </div>
             {socials.map((s, i) => (
               <div key={i} className={styles.socialRow}>
                 <input
                   value={s.label}
-                  onChange={e => handleSocialChange(i, 'label', e.target.value)}
+                  onChange={(e) =>
+                    handleSocialChange(i, "label", e.target.value)
+                  }
                   className={styles.socialInput}
                   placeholder="Label"
                 />
                 <input
                   value={s.href}
-                  onChange={e => handleSocialChange(i, 'href', e.target.value)}
+                  onChange={(e) =>
+                    handleSocialChange(i, "href", e.target.value)
+                  }
                   className={styles.socialInput}
                   placeholder="URL"
                 />
                 <select
                   value={s.icon}
-                  onChange={e => handleSocialChange(i, 'icon', e.target.value)}
+                  onChange={(e) =>
+                    handleSocialChange(i, "icon", e.target.value)
+                  }
                   className={styles.socialInput}
                   style={{ width: 80 }}
                 >
@@ -181,22 +258,42 @@ export default function Builder() {
             ))}
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 24 }}>
-          <button type="button" onClick={handleSave} style={{
-            padding: '0.7rem 2.2rem',
-            borderRadius: 8,
-            border: 'none',
-            background: primaryColor,
-            color: '#fff',
-            fontWeight: 600,
-            fontSize: 16,
-            cursor: 'pointer',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
-            transition: 'background 0.2s',
-          }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            marginTop: 24,
+          }}
+        >
+          <button
+            type="button"
+            onClick={handleSave}
+            style={{
+              padding: "0.7rem 2.2rem",
+              borderRadius: 8,
+              border: "none",
+              background: primaryColor,
+              color: "#fff",
+              fontWeight: 600,
+              fontSize: 16,
+              cursor: "pointer",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+              transition: "background 0.2s",
+            }}
+          >
             Save
           </button>
-          {saveStatus && <span style={{ color: saveStatus === 'Saved!' ? 'green' : 'red', fontWeight: 500 }}>{saveStatus}</span>}
+          {saveStatus && (
+            <span
+              style={{
+                color: saveStatus === "Saved!" ? "green" : "red",
+                fontWeight: 500,
+              }}
+            >
+              {saveStatus}
+            </span>
+          )}
         </div>
       </div>
     </section>
