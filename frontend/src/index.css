@@ -8,6 +8,7 @@
   /* background: radial-gradient(circle at top, #FDC031 -10%, #fff 50%); */
   height: 100%;
   position: relative;
+  background-color: white;
   /* color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
@@ -32,13 +33,14 @@ body::after {
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.40;
+  opacity: 0.20;
   background-image: url('data:image/svg+xml;utf8,<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="200" height="200" filter="url(%23noiseFilter)"/></svg>');
   background-repeat: repeat;
 }
 button{
   font-family: "Montserrat", sans-serif;  
 }
+
 /* 
 a {
   font-weight: 500;

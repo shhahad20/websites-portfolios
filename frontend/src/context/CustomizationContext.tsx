@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useState, useEffect, ReactNode, useContext } from "react";
+import { Outlet } from "react-router-dom";
 
 // Types
 type Social = { label: string; href: string; icon: string };
@@ -33,7 +34,7 @@ const defaultSocials: Social[] = [
   { label: "CodePen", href: "https://codepen.io", icon: "codepen" },
 ];
 
-const CustomizationContext = createContext<CustomizationContextType | undefined>(undefined);
+export const CustomizationContext = createContext<CustomizationContextType | undefined>(undefined);
 
 export function CustomizationProvider({ children }: { children: ReactNode }) {
   const [primaryColor, setPrimaryColor] = useState(() => JSON.parse(localStorage.getItem("primaryColor") || '"#434343"'));
@@ -46,7 +47,7 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
       try {
         const arr = JSON.parse(raw);
         // migrate old socials (no icon) to new format
-        return arr.map((s: any) => ({ ...s, icon: s.icon || "twitter" }));
+        return arr.map((s: Social) => ({ ...s, icon: s.icon || "twitter" }));
       } catch {
         return defaultSocials;
       }
@@ -61,7 +62,9 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
     try {
       const g = localStorage.getItem('gradient');
       if (g) return JSON.parse(g);
-    } catch {}
+    } catch {
+      // Ignore JSON parse errors and use default gradient
+    }
     return { from: '#FDC031', to: '#ffffff', direction: 'to bottom' };
   });
 
@@ -120,9 +123,17 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
     </CustomizationContext.Provider>
   );
 }
-
 export function useCustomization() {
   const ctx = useContext(CustomizationContext);
   if (!ctx) throw new Error("useCustomization must be used within CustomizationProvider");
   return ctx;
+}
+// useCustomization hook moved to a separate file for Fast Refresh compatibility.
+
+export default function CustomizationLayout() {
+  return (
+    <CustomizationProvider>
+      <Outlet />
+    </CustomizationProvider>
+  );
 }

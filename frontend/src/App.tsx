@@ -6,18 +6,21 @@ import About from './pages/About';
 import AuthPage from './pages/AuthPage';
 import Footer from './components/Footer';
 import ContactUs from './pages/ContactUs';
-import { CustomizationProvider } from './context/CustomizationContext';
+import CustomizationLayout from './context/CustomizationContext';
 import Builder from './pages/Builder';
 
 function App() {
   return (
-    <CustomizationProvider>
+            <BrowserRouter>
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-        <BrowserRouter>
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
             <Routes>
+              <Route element={<CustomizationLayout />}>
               <Route path="/" element={<EnterName />} />
               <Route path="/home" element={<HeroSection />} />
+              </Route>
+
+              
               <Route path="/about" element={<About />} />
               <Route path="/auth" element={<AuthPage />} />
               <Route path="/contact" element={<ContactUs />} />
@@ -25,9 +28,9 @@ function App() {
             </Routes>
           </div>
           <Footer />
-        </BrowserRouter>
       </div>
-    </CustomizationProvider>
+              </BrowserRouter>
+
   );
 }
 
