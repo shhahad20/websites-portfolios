@@ -54,6 +54,13 @@ export default function Builder() {
     );
   };
 
+   const hexToRgba = (hex: string, alpha: number) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+
   // Compute background style
   const backgroundStyle =
     bgType === "solid"
@@ -62,7 +69,7 @@ export default function Builder() {
           background: `linear-gradient(${gradient.direction}, ${gradient.from}, ${gradient.to})`,
           "--input-bg": inputColor,
           "--input-border": borderColor,
-          "--social-btn-bg": socialBtnColor,
+          "--social-btn-bg": hexToRgba(socialBtnColor, 0.6),
         };
 
   // Save handler (simulate saving to localStorage or API)
@@ -77,7 +84,17 @@ export default function Builder() {
       avatar,
       prompts,
       socials,
+      inputColor,
+      borderColor,
+      socialBtnColor,
     };
+    // Apply CSS variables to document root
+    document.documentElement.style.setProperty("--input-bg", inputColor);
+    document.documentElement.style.setProperty("--input-border", borderColor);
+    document.documentElement.style.setProperty(
+      "--social-btn-bg",
+      socialBtnColor
+    );
     try {
       localStorage.setItem("builderSettings", JSON.stringify(data));
       setSaveStatus("Saved!");
@@ -164,17 +181,29 @@ export default function Builder() {
         )}
         <div className={styles.row}>
           <label>Input Background Color:</label>
-          <input type="color" value={inputColor} onChange={e => setInputColor(e.target.value)} />
+          <input
+            type="color"
+            value={inputColor}
+            onChange={(e) => setInputColor(e.target.value)}
+          />
         </div>
 
         <div className={styles.row}>
           <label>Input / Border Color:</label>
-          <input type="color" value={borderColor} onChange={e => setBorderColor(e.target.value)} />
+          <input
+            type="color"
+            value={borderColor}
+            onChange={(e) => setBorderColor(e.target.value)}
+          />
         </div>
 
         <div className={styles.row}>
           <label>Social Button Color:</label>
-          <input type="color" value={socialBtnColor} onChange={e => setSocialBtnColor(e.target.value)} />
+          <input
+            type="color"
+            value={socialBtnColor}
+            onChange={(e) => setSocialBtnColor(e.target.value)}
+          />
         </div>
 
         <div className={styles.row}>

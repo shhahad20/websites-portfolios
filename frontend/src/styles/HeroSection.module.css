@@ -8,7 +8,8 @@
   overflow: hidden;
   padding: 4rem 2rem;
   /* gradient background */
-  /* background: radial-gradient(circle at top, #FDC031 -10%, #fff 50%); */
+  /* background: radial-gradient(circle at top, #FDC031 -10%, #fff 50%);
+  height: 100vh; */
 }
 
 /* noise overlay */
@@ -56,13 +57,13 @@ p {
   font-size: 3rem;
   margin: 0;
   font-weight: 600;
-  color: #434343;
+    color: var(--primary-color);;
 }
 
 .titleSmall {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #434343;
+    color: var(--primary-color);;
   transition: font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -71,14 +72,14 @@ p {
   margin-bottom: 0.5rem;
   padding-top: 0;
   font-weight: 600;
-  color: #434343;
+    color: var(--primary-color);;
 }
 .avatarWrapper {
   /* set whatever size you need */
   width: 80px;
   height: 80px;
   /* border: 2px solid #434343; */
-  border-radius: 50%; /* makes it circular */
+  /* border-radius: 50%;  */
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -94,7 +95,7 @@ p {
 }
 .smtitle {
   font-size: 0.87rem;
-  color: #434343;
+    color: var(--primary-color);;
   margin-bottom: 1rem;
 }
 .prompts {
@@ -116,11 +117,11 @@ p {
 
 .promptCard {
   padding: 0.87rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--input-border);;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.8);
   font-size: 0.87rem;
-  color: #434343;
+    color: var(--primary-color);;
   cursor: pointer;
   text-align: left;
   transition: background 0.2s, box-shadow 0.2s;
@@ -136,7 +137,7 @@ p {
   display: flex;
   align-items: center;
   gap: 0.2rem;
-  color: #434343;
+    color: var(--primary-color);;
   font-weight: 500;
   cursor: pointer;
   margin-top: 0.5rem;
@@ -154,16 +155,15 @@ p {
   min-height: 3.5rem;
   padding: 1rem;
   padding-right: 3.5rem;
-  /* border: 1px solid #ccc; */
   border: 1px solid var(--input-border);
   color: var(--primary-color);
   background-color: var(--input-bg);
-
   border-radius: 12px;
   resize: none;
   font-size: 1rem;
   /* color: #333; */
   /* background-color: white; */
+  /* border: 1px solid var(--input-border);; */
 }
 
 .charCount {
@@ -225,7 +225,7 @@ p {
 .authInput {
   padding: 1rem;
   border-radius: 12px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--input-border);;
   font-size: 1rem;
   background: #fff;
   color: #333;

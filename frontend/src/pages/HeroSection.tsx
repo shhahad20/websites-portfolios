@@ -6,7 +6,7 @@ import Contacts from '../components/Contacts';
 import { useCustomization } from '../context/CustomizationContext';
 
 export const HeroSection: React.FC = () => {
-  const { avatar, prompts, primaryColor} = useCustomization();
+  const { avatar, prompts, primaryColor, socialBtnColor} = useCustomization();
   const [input, setInput] = useState("");
   const [promptStart, setPromptStart] = useState(0);
   const [chatMode, setChatMode] = useState(false);
@@ -39,8 +39,15 @@ const handleSend = (e: React.FormEvent) => {
           ))
       : [];
 
+         const hexToRgba = (hex: string, alpha: number) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  };
+  
   // Only set --primary-color for this section, background handled globally
-  const heroStyle = { '--primary-color': primaryColor } as React.CSSProperties;
+  const heroStyle = { '--primary-color': primaryColor, '--social-btn-bg': hexToRgba(socialBtnColor || '#fede84', 0.6), } as React.CSSProperties;
 
   const isInputEmpty = !input.trim();
 
@@ -57,7 +64,7 @@ const handleSend = (e: React.FormEvent) => {
         </div>
         <div className={chatMode ? styles.hideSmooth : ""}>
           <p className={styles.subtitle}>
-            What would you like to know about Noura?
+            What would you like to know about me?
           </p>
           <p className={styles.smtitle}>
             Use one of the most common prompts below or use your own to begin
