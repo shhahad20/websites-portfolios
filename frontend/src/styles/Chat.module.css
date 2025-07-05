@@ -45,7 +45,7 @@
 .promptCard {
   padding: 0.75rem 1rem;
   background: rgba(255, 255, 255, 0.8);
-  border: 1px solid #ccc;
+  border: 1px solid var(--input-border);;
   border-radius: 12px;
   font-size: 0.95rem;
   color: #333;
@@ -151,7 +151,7 @@
   background-color: var(--input-bg);
   /* color: #333;
   background-color: white;
-    border: 1px solid #ccc; */
+    border: 1px solid var(--input-border);; */
 }
 
 .charCount {
