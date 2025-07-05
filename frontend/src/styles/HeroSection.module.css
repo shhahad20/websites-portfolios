@@ -57,13 +57,13 @@ p {
   font-size: 3rem;
   margin: 0;
   font-weight: 600;
-    color: var(--primary-color);;
+  color: var(--primary-color);
 }
 
 .titleSmall {
   font-size: 1.5rem;
   font-weight: 600;
-    color: var(--primary-color);;
+  color: var(--primary-color);
   transition: font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -72,7 +72,7 @@ p {
   margin-bottom: 0.5rem;
   padding-top: 0;
   font-weight: 600;
-    color: var(--primary-color);;
+  color: var(--primary-color);
 }
 .avatarWrapper {
   /* set whatever size you need */
@@ -95,7 +95,7 @@ p {
 }
 .smtitle {
   font-size: 0.87rem;
-    color: var(--primary-color);;
+  color: var(--primary-color);
   margin-bottom: 1rem;
 }
 .prompts {
@@ -117,13 +117,14 @@ p {
 
 .promptCard {
   padding: 0.87rem;
-  border: 1px solid var(--input-border);;
+  border: 1px solid var(--input-border);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.8);
+  /* background: rgba(255, 255, 255, 0.8); */
   font-size: 0.87rem;
-    color: var(--primary-color);;
+  color: var(--primary-color);
   cursor: pointer;
   text-align: left;
+  background-color: var(--social-btn-bg);
   transition: background 0.2s, box-shadow 0.2s;
 }
 
@@ -137,7 +138,7 @@ p {
   display: flex;
   align-items: center;
   gap: 0.2rem;
-    color: var(--primary-color);;
+  color: var(--primary-color);
   font-weight: 500;
   cursor: pointer;
   margin-top: 0.5rem;
