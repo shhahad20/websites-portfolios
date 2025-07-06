@@ -31,14 +31,9 @@ interface CustomizationContextType {
   setBorderColor: (c: string) => void;
   socialBtnColor: string;
   setSocialBtnColor: (c: string) => void;
+  ownerName: string;
+  setOwnerName: (name: string) => void;
 }
-
-const defaultPrompts = [
-  "Tell me about last Noura’s projects",
-  "What is Noura’s educations?",
-  "Noura’s Contact info",
-  "What are Noura’s technical skills?",
-];
 
 const defaultSocials: Social[] = [
   { label: "Twitter", href: "https://twitter.com", icon: "twitter" },
@@ -69,6 +64,16 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
   const [socialBtnColor, setSocialBtnColor] = useState<string>(() =>
     JSON.parse(localStorage.getItem("socialBtnColor") || '"#434343"')
   );
+  const [ownerName, setOwnerName] = useState<string>(
+    () => localStorage.getItem("ownerName") || "Sara"
+  );
+
+  const defaultPrompts = [
+    `Tell me about last ${ownerName}’s projects`,
+    `What is ${ownerName}’s educations?`,
+    `${ownerName}’s Contact info`,
+    `What are ${ownerName}’s technical skills?`,
+  ];
 
   const [prompts, setPrompts] = useState<string[]>(
     () =>
@@ -120,12 +125,18 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     localStorage.setItem("inputColor", JSON.stringify(inputColor));
   }, [inputColor]);
+
   useEffect(() => {
     localStorage.setItem("borderColor", JSON.stringify(borderColor));
   }, [borderColor]);
+
   useEffect(() => {
     localStorage.setItem("socialBtnColor", JSON.stringify(socialBtnColor));
   }, [socialBtnColor]);
+
+  useEffect(() => {
+    localStorage.setItem("ownerName", ownerName);
+  }, [ownerName]);
 
   useEffect(() => {
     localStorage.setItem("bgType", bgType);
@@ -178,6 +189,8 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
         setBorderColor,
         socialBtnColor,
         setSocialBtnColor,
+        ownerName,
+        setOwnerName,
       }}
     >
       {children}

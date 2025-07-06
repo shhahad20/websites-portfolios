@@ -6,12 +6,13 @@ import Contacts from '../components/Contacts';
 import { useCustomization } from '../context/CustomizationContext';
 
 export const HeroSection: React.FC = () => {
-  const { avatar, prompts, primaryColor, socialBtnColor} = useCustomization();
+  const { avatar, prompts, primaryColor, socialBtnColor, ownerName} = useCustomization();
   const [input, setInput] = useState("");
   const [promptStart, setPromptStart] = useState(0);
   const [chatMode, setChatMode] = useState(false);
   const [initialUserMsg, setInitialUserMsg] = useState<string | null>(null);
 
+console.log("ownerName", ownerName);
   const handlePromptClick = (prompt: string) => {
     setInput(prompt);
   };
@@ -56,10 +57,10 @@ const handleSend = (e: React.FormEvent) => {
       <div className={styles.content}>
         <div className={styles.titleRow}>
           <div className={styles.avatarWrapper}>
-            <img src={avatar || avatarSrc} alt="Noura" className={styles.avatarHero} />
+            <img src={avatar || avatarSrc} alt={ownerName} className={styles.avatarHero} />
           </div>
           <h1 className={chatMode ? styles.titleSmall : styles.title}>
-            Hi there, {typeof window !== 'undefined' && localStorage.getItem('userName') ? localStorage.getItem('userName') : 'Mohammed'}
+            Hi there, {typeof window !== 'undefined' && localStorage.getItem('userName') ? localStorage.getItem('userName') : 'Fatima'}
           </h1>
         </div>
         <div className={chatMode ? styles.hideSmooth : ""}>
@@ -105,7 +106,7 @@ const handleSend = (e: React.FormEvent) => {
           <form onSubmit={handleSend} className={styles.inputWrapper}>
             <textarea
               className={styles.textInput}
-              placeholder="Ask Sara’s AI anything about her"
+              placeholder={ `Ask my AI assistant anything about me` }
               value={input}
               onChange={(e) => setInput(e.target.value)}
               maxLength={500}
