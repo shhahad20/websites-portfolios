@@ -84,7 +84,9 @@
   grid-auto-flow: column;
   grid-template-columns: 16px 1fr;
   gap: 0.25rem;
-  color: #434343;
+  /* color: #434343; */
+    color: var(--primary-color);
+
 }
 
 .contactsList li:is(:nth-of-type(2), :nth-of-type(3), :nth-of-type(4)) span {
@@ -94,8 +96,14 @@
 .contactsList
   li:is(:nth-of-type(2), :nth-of-type(3), :nth-of-type(4))
   a:is(:hover, :focus) {
-  background: var(--gray-0);
-  color: var(--gray-12);
+  /* background: var(--gray-0);
+  color: var(--gray-12); */
+    background-color: color-mix(
+    in srgb,
+    var(--social-btn-bg) 80%,
+    black 30%
+  );
+  
 }
 
 .contactsList a:focus-visible {
@@ -113,17 +121,25 @@
   align-items: center;
   gap: 6px;
   background: none;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
+    border: 1px solid var(--input-border);
+
   border-radius: 12px;
   padding: 0.5rem 1rem;
   cursor: pointer;
-  color: #434343;
+  /* color: #434343; */
+    color: var(--primary-color);
   font-weight: 500;
   transition: background 0.2s, border 0.2s;
 }
 .copyUrlBtn:hover {
-  background: #f5f5f5;
-  border: 1px solid #434343;
+  /* background: #f5f5f5;
+  border: 1px solid #434343; */
+    background-color: color-mix(
+    in srgb,
+    var(--social-btn-bg) 80%,
+    black 30%
+  );
 }
 
 @media (max-width: 640px) {

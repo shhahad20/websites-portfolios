@@ -45,7 +45,7 @@ const handleSend = (e: React.FormEvent) => {
     const b = parseInt(hex.slice(5, 7), 16);
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   };
-  
+
   // Only set --primary-color for this section, background handled globally
   const heroStyle = { '--primary-color': primaryColor, '--social-btn-bg': hexToRgba(socialBtnColor || '#fede84', 0.6), } as React.CSSProperties;
 
@@ -105,7 +105,7 @@ const handleSend = (e: React.FormEvent) => {
           <form onSubmit={handleSend} className={styles.inputWrapper}>
             <textarea
               className={styles.textInput}
-              placeholder="Ask Noura’s AI anything about her"
+              placeholder="Ask Sara’s AI anything about her"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               maxLength={500}

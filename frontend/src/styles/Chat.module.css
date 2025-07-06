@@ -74,7 +74,7 @@
 }
 
 .chatWindow::-webkit-scrollbar {
-  width: 5px;
+  width: 3px;
 }
 
 .chatWindow::-webkit-scrollbar-thumb {
@@ -120,13 +120,25 @@
 
 .botBubble {
   background: #ffffff75;
-  color: #333;
+      background-color: color-mix(
+    in srgb,
+    var(--social-btn-bg) 80%,
+    rgb(255, 255, 255) 5%
+  );
+  /* color: #333; */
+    color: var(--primary-color);
   border-radius: 16px 16px 16px 4px;
 }
 
 .userBubble {
-  background: rgba(254, 222, 132, 0.4);
-  color: #333;
+  /* background: rgba(254, 222, 132, 0.4); */
+    background-color: color-mix(
+    in srgb,
+    var(--social-btn-bg) 80%,
+    black 10%
+  );
+  /* color: #333; */
+  color: var(--primary-color);
   border-radius: 16px 16px 4px 16px;
 }
 
@@ -147,7 +159,7 @@
   resize: none;
   font-size: 1rem;
   border: 1px solid var(--input-border);
-  color: var(--primary-color);
+  color: #434343;
   background-color: var(--input-bg);
   /* color: #333;
   background-color: white;

@@ -129,7 +129,13 @@ p {
 }
 
 .promptCard:hover {
-  background: #fff;
+  /* background: #fff; */
+  /* filter: brightness(0.7); */
+  background-color: color-mix(
+    in srgb,
+    var(--social-btn-bg) 80%,
+    black 30%
+  );
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 .refreshPrompt {
@@ -143,6 +149,8 @@ p {
   cursor: pointer;
   margin-top: 0.5rem;
   margin-left: 0;
+    font-size: 0.87rem;
+
 }
 .inputWrapper {
   position: relative;
@@ -157,7 +165,8 @@ p {
   padding: 1rem;
   padding-right: 3.5rem;
   border: 1px solid var(--input-border);
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
+  color: #434343;
   background-color: var(--input-bg);
   border-radius: 12px;
   resize: none;
