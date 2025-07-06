@@ -22,8 +22,8 @@
   gap: 1rem;
   padding: 0 1.5rem;
 }
-.contactLink{
-display: flex;
+.contactLink {
+  display: flex;
   gap: 1rem;
   align-items: center;
   font-weight: 500;
@@ -36,5 +36,6 @@ display: flex;
   font-size: 0.78rem;
 }
 .contactLink a:hover {
-  color: #1E1E1E;
+  /* color: #1E1E1E; */
+  color: var(--primary-color);
 }

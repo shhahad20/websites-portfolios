@@ -302,7 +302,7 @@ export default function Builder() {
               padding: "0.7rem 2.2rem",
               borderRadius: 8,
               border: "none",
-              background: primaryColor,
+              background: "#434343",
               color: "#fff",
               fontWeight: 600,
               fontSize: 16,
