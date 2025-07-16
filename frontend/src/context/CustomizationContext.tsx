@@ -1,10 +1,10 @@
-import React, {
+import  {
   createContext,
   useState,
   useEffect,
-  ReactNode,
   useContext,
 } from "react";
+import type { ReactNode } from "react";
 import { Outlet } from "react-router-dom";
 
 // Types
