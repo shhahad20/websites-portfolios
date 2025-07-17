@@ -15,10 +15,9 @@ export const HeroSection: React.FC = () => {
   const [chatMode, setChatMode] = useState(false);
   const [initialUserMsg, setInitialUserMsg] = useState<string | null>(null);
   const {ownerName} = useParams<{ ownerName: string }>();
+  
   console.log("Owner Name:", ownerName);
   React.useEffect(() => {
-    // Example: fetch owner data from a given path (adjust as needed)
-    // Replace '/api/owner' with your actual endpoint
     const data = apiGet(`/auth/${ownerName}`)
     console.log(data);
   }, []);

@@ -10,7 +10,7 @@ export const EnterName: React.FC = () => {
     e.preventDefault();
     if (name.trim()) {
       localStorage.setItem("userName", name.trim());
-      navigate("/home");
+      navigate(`/${name}`);
     }
   };
 

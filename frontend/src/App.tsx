@@ -19,7 +19,7 @@ function App() {
           <Routes>
             <Route element={<CustomizationLayout />}>
               <Route path="/" element={<EnterName />} />
-              <Route path="/home" element={<HeroSection />} />
+              {/* <Route path="/home" element={<HeroSection />} /> */}
               <Route path="/:ownerName" element={<HeroSection />} />
               <Route path="/builder" element={<Builder />} />
             </Route>
