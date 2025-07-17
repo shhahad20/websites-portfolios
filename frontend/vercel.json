@@ -1,6 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/:ownerName", "destination": "/" },
-    { "source": "/:ownerName/*", "destination": "/" }
-  ]
-}
