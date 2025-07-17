@@ -2,17 +2,28 @@ import React, { useState } from "react";
 import styles from "../styles/HeroSection.module.css";
 import { ChatHero } from "../components/Chat";
 import avatarSrc from "../assets/avatar.svg";
-import Contacts from '../components/Contacts';
-import { useCustomization } from '../context/CustomizationContext';
+import Contacts from "../components/Contacts";
+import { useCustomization } from "../context/CustomizationContext";
+import { useParams } from "react-router-dom";
+import { apiGet } from "../api/client";
 
 export const HeroSection: React.FC = () => {
-  const { avatar, prompts, primaryColor, socialBtnColor, ownerName} = useCustomization();
+  const { avatar, prompts, primaryColor, socialBtnColor } =
+    useCustomization();
   const [input, setInput] = useState("");
   const [promptStart, setPromptStart] = useState(0);
   const [chatMode, setChatMode] = useState(false);
   const [initialUserMsg, setInitialUserMsg] = useState<string | null>(null);
+  const {ownerName} = useParams<{ ownerName: string }>();
 
-console.log("ownerName", ownerName);
+  React.useEffect(() => {
+    // Example: fetch owner data from a given path (adjust as needed)
+    // Replace '/api/owner' with your actual endpoint
+    const data = apiGet(`/api/${ownerName}`)
+    console.log(data);
+  }, []);
+
+
   const handlePromptClick = (prompt: string) => {
     setInput(prompt);
   };
@@ -21,7 +32,7 @@ console.log("ownerName", ownerName);
     setPromptStart((prev) => (prev + 3) % prompts.length);
   };
 
-const handleSend = (e: React.FormEvent) => {
+  const handleSend = (e: React.FormEvent) => {
     e.preventDefault();
     // Check if input is empty or only whitespace
     if (!input.trim()) {
@@ -33,14 +44,14 @@ const handleSend = (e: React.FormEvent) => {
 
   const visiblePrompts =
     prompts.length > 0
-      ? (prompts.slice(promptStart, promptStart + 3).length === 3
+      ? prompts.slice(promptStart, promptStart + 3).length === 3
         ? prompts.slice(promptStart, promptStart + 3)
-        : prompts.slice(promptStart).concat(
-            prompts.slice(0, 3 - (prompts.length - promptStart))
-          ))
+        : prompts
+            .slice(promptStart)
+            .concat(prompts.slice(0, 3 - (prompts.length - promptStart)))
       : [];
 
-         const hexToRgba = (hex: string, alpha: number) => {
+  const hexToRgba = (hex: string, alpha: number) => {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
     const b = parseInt(hex.slice(5, 7), 16);
@@ -48,7 +59,10 @@ const handleSend = (e: React.FormEvent) => {
   };
 
   // Only set --primary-color for this section, background handled globally
-  const heroStyle = { '--primary-color': primaryColor, '--social-btn-bg': hexToRgba(socialBtnColor || '#fede84', 0.6), } as React.CSSProperties;
+  const heroStyle = {
+    "--primary-color": primaryColor,
+    "--social-btn-bg": hexToRgba(socialBtnColor || "#fede84", 0.6),
+  } as React.CSSProperties;
 
   const isInputEmpty = !input.trim();
 
@@ -57,10 +71,17 @@ const handleSend = (e: React.FormEvent) => {
       <div className={styles.content}>
         <div className={styles.titleRow}>
           <div className={styles.avatarWrapper}>
-            <img src={avatar || avatarSrc} alt={ownerName} className={styles.avatarHero} />
+            <img
+              src={avatar || avatarSrc}
+              alt={ownerName}
+              className={styles.avatarHero}
+            />
           </div>
           <h1 className={chatMode ? styles.titleSmall : styles.title}>
-            Hi there, {typeof window !== 'undefined' && localStorage.getItem('userName') ? localStorage.getItem('userName') : 'Fatima'}
+            Hi there,{" "}
+            {typeof window !== "undefined" && localStorage.getItem("userName")
+              ? localStorage.getItem("userName")
+              : "Fatima"}
           </h1>
         </div>
         <div className={chatMode ? styles.hideSmooth : ""}>
@@ -106,13 +127,18 @@ const handleSend = (e: React.FormEvent) => {
           <form onSubmit={handleSend} className={styles.inputWrapper}>
             <textarea
               className={styles.textInput}
-              placeholder={ `Ask my AI assistant anything about me` }
+              placeholder={`Ask my AI assistant anything about me`}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               maxLength={500}
             />
             <span className={styles.charCount}>{input.length}/500</span>
-            <button className={styles.sendBtn} aria-label="Send" type="submit" disabled={isInputEmpty}>
+            <button
+              className={styles.sendBtn}
+              aria-label="Send"
+              type="submit"
+              disabled={isInputEmpty}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -143,8 +169,17 @@ const handleSend = (e: React.FormEvent) => {
             </button>
           </form>
         </div>
-        {chatMode && initialUserMsg && <ChatHero initialUserMsg={initialUserMsg} />}
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-start', marginTop: '2.5rem' }}>
+        {chatMode && initialUserMsg && (
+          <ChatHero initialUserMsg={initialUserMsg} />
+        )}
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-start",
+            marginTop: "2.5rem",
+          }}
+        >
           <Contacts />
         </div>
       </div>

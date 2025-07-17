@@ -20,6 +20,7 @@ function App() {
             <Route element={<CustomizationLayout />}>
               <Route path="/" element={<EnterName />} />
               <Route path="/home" element={<HeroSection />} />
+              <Route path="/shahad" element={<HeroSection />} />
               <Route path="/builder" element={<Builder />} />
             </Route>
 
