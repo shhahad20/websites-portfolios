@@ -5,7 +5,8 @@ import  {
   useContext,
 } from "react";
 import type { ReactNode } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
+import { apiGet } from "../api/client";
 
 // Types
 type Social = { label: string; href: string; icon: string };
@@ -64,15 +65,30 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
   const [socialBtnColor, setSocialBtnColor] = useState<string>(() =>
     JSON.parse(localStorage.getItem("socialBtnColor") || '"#434343"')
   );
-  const [ownerName, setOwnerName] = useState<string>(
-    () => localStorage.getItem("ownerName") || "Sara"
-  );
+  // const [ownerName, setOwnerName] = useState<string>(
+  //   () => localStorage.getItem("ownerName") || "Sara"
+  // );
+    const { ownerName } = useParams<{ ownerName: string }>();
+  const [owner, setOwner] = useState<{ name: string; email: string } | null>(null);
+
+ useEffect(() => {
+    if (!ownerName) return;
+    (async () => {
+      try {
+        const data = await apiGet<{ name: string; email: string }>(`/auth/${ownerName}`);
+        console.log("owner data", data);
+        setOwner(data);           // ← save into state
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [ownerName]);
 
   const defaultPrompts = [
-    `Tell me about last ${ownerName}’s projects`,
-    `What is ${ownerName}’s educations?`,
-    `${ownerName}’s Contact info`,
-    `What are ${ownerName}’s technical skills?`,
+    `Tell me about last ${owner?.name ?? ownerName}’s projects`,
+    `What is ${owner?.name ?? ownerName}’s educations?`,
+    `${owner?.name ?? ownerName}’s Contact info`,
+    `What are ${owner?.name ?? ownerName}’s technical skills?`,
   ];
 
   const [prompts, setPrompts] = useState<string[]>(
@@ -134,9 +150,9 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("socialBtnColor", JSON.stringify(socialBtnColor));
   }, [socialBtnColor]);
 
-  useEffect(() => {
-    localStorage.setItem("ownerName", ownerName);
-  }, [ownerName]);
+  // useEffect(() => {
+  //   localStorage.setItem("ownerName", ownerName);
+  // }, [ownerName]);
 
   useEffect(() => {
     localStorage.setItem("bgType", bgType);
@@ -189,8 +205,8 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
         setBorderColor,
         socialBtnColor,
         setSocialBtnColor,
-        ownerName,
-        setOwnerName,
+        // ownerName,
+        // setOwnerName,
       }}
     >
       {children}
