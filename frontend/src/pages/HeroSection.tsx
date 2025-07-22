@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../styles/HeroSection.module.css";
 import { ChatHero } from "../components/Chat";
 import avatarSrc from "../assets/avatar.svg";
@@ -14,15 +14,15 @@ export const HeroSection: React.FC = () => {
   const [chatMode, setChatMode] = useState(false);
   const [initialUserMsg, setInitialUserMsg] = useState<string | null>(null);
   const { ownerName } = useParams<{ ownerName: string }>();
+  const [owner, setOwner] = useState<{ name: string; email: string } | null>(null);
 
-  console.log("Owner Name:", ownerName);
-  
-  React.useEffect(() => {
+ useEffect(() => {
+    if (!ownerName) return;
     (async () => {
       try {
-        const data = await apiGet(`/auth/${ownerName}`);
+        const data = await apiGet<{ name: string; email: string }>(`/auth/${ownerName}`);
         console.log("owner data", data);
-        // save it into state if you need to render it
+        setOwner(data);           // ← save into state
       } catch (err) {
         console.error(err);
       }
@@ -91,7 +91,7 @@ export const HeroSection: React.FC = () => {
         </div>
         <div className={chatMode ? styles.hideSmooth : ""}>
           <p className={styles.subtitle}>
-            What would you like to know about me?
+            What would you like to know about {owner?.name ?? ownerName}?
           </p>
           <p className={styles.smtitle}>
             Use one of the most common prompts below or use your own to begin
@@ -132,7 +132,7 @@ export const HeroSection: React.FC = () => {
           <form onSubmit={handleSend} className={styles.inputWrapper}>
             <textarea
               className={styles.textInput}
-              placeholder={`Ask my AI assistant anything about me`}
+              placeholder={`Ask my AI assistant anything about ${owner?.name ?? ownerName}`}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               maxLength={500}

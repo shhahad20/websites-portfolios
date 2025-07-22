@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from '../styles/Chat.module.css';
 import avatarSrc from '../assets/avatar.svg';
+import { useParams } from 'react-router-dom';
+import { apiGet } from '../api/client';
 
 type Message = {
   role: 'user' | 'bot';
@@ -25,6 +27,21 @@ export const ChatHero: React.FC<ChatHeroProps> = ({ initialUserMsg }) => {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+    const { ownerName } = useParams<{ ownerName: string }>();
+  const [owner, setOwner] = useState<{ name: string; email: string } | null>(null);
+
+ useEffect(() => {
+    if (!ownerName) return;
+    (async () => {
+      try {
+        const data = await apiGet<{ name: string; email: string }>(`/auth/${ownerName}`);
+        console.log("owner data", data);
+        setOwner(data);           // ← save into state
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [ownerName]);
   // Function to get bot response based on user message
   const getBotResponse = (userMessage: string): string => {
     const userMsg = userMessage.toLowerCase();
@@ -33,9 +50,9 @@ export const ChatHero: React.FC<ChatHeroProps> = ({ initialUserMsg }) => {
       userMsg.includes('background') ||
       userMsg.includes('work history')
     ) {
-      return "Sara has extensive experience in AI research and software engineering, having worked on projects ranging from natural language processing to computer vision. She's passionate about building innovative solutions and has contributed to several open-source initiatives.";
+      return `${owner?.name ?? ownerName} has extensive experience in AI research and software engineering, having worked on projects ranging from natural language processing to computer vision. She's passionate about building innovative solutions and has contributed to several open-source initiatives.`;
     }
-    return "You're most welcome! If you have any more questions about Sara, don't hesitate to ask. 😊";
+    return `You're most welcome! If you have any more questions about ${owner?.name ?? ownerName}, don't hesitate to ask. 😊`;
   };
 
   // Respond to initial user message
@@ -112,7 +129,7 @@ export const ChatHero: React.FC<ChatHeroProps> = ({ initialUserMsg }) => {
             {m.role === 'bot' && i === 0 && (
               <img
                 src={avatarSrc}
-                alt="Noura"
+                alt={owner?.name ?? ownerName}
                 className={styles.avatar}
               />
             )}
@@ -130,7 +147,7 @@ export const ChatHero: React.FC<ChatHeroProps> = ({ initialUserMsg }) => {
       <div className={styles.inputWrapper}>
         <textarea
           className={styles.textInput}
-          placeholder="Ask Sara's AI anything about her"
+          placeholder={`Ask ${owner?.name ?? ownerName}'s AI anything`}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKey}
