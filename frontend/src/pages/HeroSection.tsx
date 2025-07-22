@@ -8,20 +8,26 @@ import { useParams } from "react-router-dom";
 import { apiGet } from "../api/client";
 
 export const HeroSection: React.FC = () => {
-  const { avatar, prompts, primaryColor, socialBtnColor } =
-    useCustomization();
+  const { avatar, prompts, primaryColor, socialBtnColor } = useCustomization();
   const [input, setInput] = useState("");
   const [promptStart, setPromptStart] = useState(0);
   const [chatMode, setChatMode] = useState(false);
   const [initialUserMsg, setInitialUserMsg] = useState<string | null>(null);
-  const {ownerName} = useParams<{ ownerName: string }>();
-  
-  console.log("Owner Name:", ownerName);
-  React.useEffect(() => {
-    const data = apiGet(`/auth/${ownerName}`)
-    console.log(data);
-  }, []);
+  const { ownerName } = useParams<{ ownerName: string }>();
 
+  console.log("Owner Name:", ownerName);
+  
+  React.useEffect(() => {
+    (async () => {
+      try {
+        const data = await apiGet(`/auth/${ownerName}`);
+        console.log("owner data", data);
+        // save it into state if you need to render it
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [ownerName]);
 
   const handlePromptClick = (prompt: string) => {
     setInput(prompt);
