@@ -91,10 +91,11 @@ export function CustomizationProvider({ children }: { children: ReactNode }) {
     `What are ${owner?.name ?? ownerName}’s technical skills?`,
   ];
 
-  const [prompts, setPrompts] = useState<string[]>(
-    () =>
-      JSON.parse(localStorage.getItem("prompts") || "null") || defaultPrompts
-  );
+  // const [prompts, setPrompts] = useState<string[]>(
+  //   () =>
+  //     JSON.parse(localStorage.getItem("prompts") || "null") || defaultPrompts
+  // );
+  const [prompts, setPrompts] =  defaultPrompts ;
   const [socials, setSocials] = useState<Social[]>(() => {
     const raw = localStorage.getItem("socials");
     if (raw) {

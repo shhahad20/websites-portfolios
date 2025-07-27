@@ -86,7 +86,7 @@ export const HeroSection: React.FC = () => {
             Hi there,{" "}
             {typeof window !== "undefined" && localStorage.getItem("userName")
               ? localStorage.getItem("userName")
-              : "Fatima"}
+              : "User"}
           </h1>
         </div>
         <div className={chatMode ? styles.hideSmooth : ""}>
@@ -132,7 +132,7 @@ export const HeroSection: React.FC = () => {
           <form onSubmit={handleSend} className={styles.inputWrapper}>
             <textarea
               className={styles.textInput}
-              placeholder={`Ask my AI assistant anything about ${owner?.name ?? ownerName}`}
+              placeholder={`Ask AI assistant anything about ${owner?.name ?? ownerName}`}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               maxLength={500}
