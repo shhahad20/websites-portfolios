@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import ContactUs from "./pages/ContactUs";
 import CustomizationLayout from "./context/CustomizationContext";
 import Builder from "./pages/Builder";
+import ConfirmEmailSent from "./pages/ConfirmEmail";
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
 
             <Route path="/about" element={<About />} />
             <Route path="/auth" element={<AuthPage />} />
+            <Route path="/confirm-email" element={<ConfirmEmailSent />} />
+
             <Route path="/contact" element={<ContactUs />} />
           </Routes>
         </div>
