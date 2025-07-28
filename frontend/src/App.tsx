@@ -19,7 +19,7 @@ function App() {
         <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
           <Routes>
             <Route element={<CustomizationLayout />}>
-              <Route path="/" element={<EnterName />} />
+              <Route path="/" element={<HeroSection />} />
               {/* <Route path="/home" element={<HeroSection />} /> */}
               <Route path="/:ownerName" element={<HeroSection />} />
               <Route path="/builder" element={<Builder />} />
