@@ -27,7 +27,7 @@ function App() {
 
             <Route path="/about" element={<About />} />
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="/confirm-email" element={<ConfirmEmailSent />} />
+            <Route path="/auth/confirmed" element={<ConfirmEmailSent />} />
 
             <Route path="/contact" element={<ContactUs />} />
           </Routes>
