@@ -32,8 +32,8 @@ interface CustomizationContextType {
   setBorderColor: (c: string) => void;
   socialBtnColor: string;
   setSocialBtnColor: (c: string) => void;
-  ownerName: string;
-  setOwnerName: (name: string) => void;
+  ownerName?: string;
+  setOwnerName?: (name: string) => void;
 }
 
 const defaultSocials: Social[] = [
