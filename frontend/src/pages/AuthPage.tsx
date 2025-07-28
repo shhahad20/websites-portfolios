@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "../styles/Global.module.css";
+import { apiPost } from "../api/client";
 
 type RegisterPayload = {
   name: string;
@@ -13,8 +14,6 @@ type LoginPayload = {
   password: string;
 };
 
-type ApiError = { error: string };
-
 type RegisterResponse = {
   user: { id: string; email: string /* etc. */ };
   message: string;
@@ -25,14 +24,7 @@ type LoginResponse = {
   session: { access_token: string /* etc. */ };
   profile: Record<string, unknown> | null;
 };
-// Generic fetch helper
-async function fetchJSON<T>(url: string, options: RequestInit): Promise<T> {
-  const res = await fetch(url, options);
-  const data = (await res.json()) as T;
-  if (!res.ok)
-    throw new Error((data as unknown as ApiError).error || res.statusText);
-  return data;
-}
+
 
 export default function AuthPage() {
   const [isSignIn, setIsSignIn] = useState<boolean>(true);
@@ -53,11 +45,10 @@ export default function AuthPage() {
     try {
       if (isSignIn) {
         const payload: LoginPayload = { email, password };
-        const data = await fetchJSON<LoginResponse>("/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        const data = await apiPost<LoginResponse, LoginPayload>(
+          "/auth/login",
+          payload
+        );
         setSuccess(`Welcome back, ${data.user.email}!`);
         localStorage.setItem("sb_token", data.session.access_token);
         // redirect...
@@ -68,11 +59,11 @@ export default function AuthPage() {
           password,
           phone: phone || undefined,
         };
-        const data = await fetchJSON<RegisterResponse>("/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        const data = await apiPost<RegisterResponse, RegisterPayload>(
+          "/auth/register",
+          payload
+        );
+
         setSuccess(data.message);
         setIsSignIn(true);
         setName("");
