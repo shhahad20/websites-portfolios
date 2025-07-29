@@ -1,6 +1,6 @@
 // import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import EnterName from "./pages/EnterName";
+// import EnterName from "./pages/EnterName";
 import { HeroSection } from "./pages/HeroSection";
 import About from "./pages/About";
 import AuthPage from "./pages/AuthPage";
