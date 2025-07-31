@@ -7,6 +7,8 @@ type RegisterPayload = {
   email: string;
   password: string;
   phone?: string;
+  userName: string;
+  gender: string;
 };
 
 type LoginPayload = {
@@ -25,13 +27,15 @@ type LoginResponse = {
   profile: Record<string, unknown> | null;
 };
 
-
 export default function AuthPage() {
   const [isSignIn, setIsSignIn] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -58,6 +62,8 @@ export default function AuthPage() {
           email,
           password,
           phone: phone || undefined,
+          userName,
+          gender
         };
         const data = await apiPost<RegisterResponse, RegisterPayload>(
           "/auth/register",
@@ -112,12 +118,26 @@ export default function AuthPage() {
                 onChange={(e) => setName(e.target.value)}
                 required
               />
+                            <input
+                type="text"
+                placeholder="User Name"
+                className={styles.authInput}
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                required
+              />
               <input
                 type="tel"
                 placeholder="Phone (optional)"
                 className={styles.authInput}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+              />
+              <input
+                type="gender"
+                className={styles.authInput}
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
               />
             </>
           )}
