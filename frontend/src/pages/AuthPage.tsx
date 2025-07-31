@@ -63,7 +63,7 @@ export default function AuthPage() {
           password,
           phone: phone || undefined,
           userName,
-          gender
+          gender,
         };
         const data = await apiPost<RegisterResponse, RegisterPayload>(
           "/auth/register",
@@ -118,7 +118,7 @@ export default function AuthPage() {
                 onChange={(e) => setName(e.target.value)}
                 required
               />
-                            <input
+              <input
                 type="text"
                 placeholder="User Name"
                 className={styles.authInput}
@@ -133,12 +133,18 @@ export default function AuthPage() {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
               />
-              <input
-                type="gender"
+              <select
                 className={styles.authInput}
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
-              />
+                required
+              >
+                <option value="" disabled>
+                  Select gender
+                </option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+              </select>
             </>
           )}
           <input
