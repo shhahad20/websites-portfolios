@@ -7,7 +7,7 @@ type RegisterPayload = {
   email: string;
   password: string;
   phone?: string;
-  userName: string;
+  user_name: string;
   gender: string;
 };
 
@@ -62,7 +62,7 @@ export default function AuthPage() {
           email,
           password,
           phone: phone || undefined,
-          userName,
+          user_name:userName,
           gender,
         };
         const data = await apiPost<RegisterResponse, RegisterPayload>(
