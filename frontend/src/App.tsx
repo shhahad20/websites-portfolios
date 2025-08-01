@@ -9,6 +9,7 @@ import ContactUs from "./pages/ContactUs";
 import CustomizationLayout from "./context/CustomizationContext";
 import Builder from "./pages/Builder";
 import ConfirmEmailSent from "./pages/ConfirmEmail";
+import Logout from "./pages/Logout";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
 
             <Route path="/about" element={<About />} />
             <Route path="/auth" element={<AuthPage />} />
+            <Route path="/logout" element={<Logout/>} />
             <Route path="/auth/confirmed" element={<ConfirmEmailSent />} />
 
             <Route path="/contact" element={<ContactUs />} />
