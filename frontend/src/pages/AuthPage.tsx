@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "../styles/Global.module.css";
 import { apiPost } from "../api/client";
+import { useNavigate } from "react-router-dom";
 
 type RegisterPayload = {
   name: string;
@@ -28,6 +29,8 @@ type LoginResponse = {
 };
 
 export default function AuthPage() {
+    const navigate = useNavigate();
+
   const [isSignIn, setIsSignIn] = useState<boolean>(true);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -55,6 +58,8 @@ export default function AuthPage() {
         );
         setSuccess(`Welcome back, ${data.user.email}!`);
         localStorage.setItem("sb_token", data.session.access_token);
+        navigate("/", { replace: true });
+
         // redirect...
       } else {
         const payload: RegisterPayload = {
@@ -62,7 +67,7 @@ export default function AuthPage() {
           email,
           password,
           phone: phone || undefined,
-          user_name:userName,
+          user_name: userName,
           gender,
         };
         const data = await apiPost<RegisterResponse, RegisterPayload>(
