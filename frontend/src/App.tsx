@@ -10,6 +10,7 @@ import CustomizationLayout from "./context/CustomizationContext";
 import Builder from "./pages/Builder";
 import ConfirmEmailSent from "./pages/ConfirmEmail";
 import Logout from "./pages/Logout";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   return (
@@ -23,12 +24,16 @@ function App() {
               <Route path="/" element={<HeroSection />} />
               {/* <Route path="/home" element={<HeroSection />} /> */}
               <Route path="/:ownerName" element={<HeroSection />} />
+            </Route>
+            
+            {/* AUTHENTICATION PROTECTION */}
+            <Route element={<RequireAuth />}>
               <Route path="/builder" element={<Builder />} />
             </Route>
 
             <Route path="/about" element={<About />} />
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="/logout" element={<Logout/>} />
+            <Route path="/logout" element={<Logout />} />
             <Route path="/auth/confirmed" element={<ConfirmEmailSent />} />
 
             <Route path="/contact" element={<ContactUs />} />
