@@ -33,11 +33,18 @@ export async function apiGet<T>(
 
 export async function apiPost<T, D = unknown>(
   endpoint: string,
-  data: D
+  data: D,
+  options: ApiGetOptions = {}
 ): Promise<T> {
+    const { headers = {}, ...rest } = options
+
   const res = await fetch(`${API_URL}${endpoint}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+        headers: {
+      'Content-Type': 'application/json',
+      ...headers,               // merge in any custom headers
+    },
+    ...rest, 
     body: JSON.stringify(data),
   });
   if (!res.ok) throw new Error(await res.text());

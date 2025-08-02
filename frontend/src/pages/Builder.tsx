@@ -1,11 +1,11 @@
 import React from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "../styles/Builder.module.css";
 import { useCustomization } from "../context/CustomizationContext";
-import { apiGet } from "../api/client";
+import { apiGet, apiPost } from "../api/client";
 
 export default function Builder() {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     primaryColor,
@@ -83,7 +83,7 @@ export default function Builder() {
     }
   };
 
-// Add and remove prompt handlers
+  // Add and remove prompt handlers
   const handleAddPrompt = () => {
     if (prompts.length < 5) {
       setPrompts([...prompts, ""]);
@@ -134,6 +134,53 @@ export default function Builder() {
           "--input-border": borderColor,
           "--social-btn-bg": hexToRgba(socialBtnColor, 0.6),
         };
+
+  // Save settings to server
+  const handleSave = async () => {
+    setIsLoading(true);
+    const token = getAuthToken();
+    if (!token) {
+      setSaveStatus("Please log in to save settings");
+      setIsLoading(false);
+      return;
+    }
+
+    const payload = {
+      primary_color: primaryColor,
+      bg_type: bgType,
+      bg_color: bgColor,
+      gradient_from: gradient.from,
+      gradient_to: gradient.to,
+      gradient_direction: gradient.direction,
+      input_color: inputColor,
+      border_color: borderColor,
+      social_btn_color: socialBtnColor,
+      avatar_url: avatar || null,
+      prompts,
+      socials,
+    };
+
+    try {
+      const response = await apiPost("/api/builder/settings", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: payload,
+      });
+      console.log("Settings saved:", response);
+      setSaveStatus("Settings saved successfully");
+      setTimeout(() => {
+        setSaveStatus(null);
+        navigate("/");
+      }, 800);
+    } catch (error) {
+      console.error("Error saving settings:", error);
+      setSaveStatus("Failed to save settings");
+      setTimeout(() => setSaveStatus(null), 2000);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   React.useEffect(() => {
     const loadSettings = async () => {
@@ -417,25 +464,31 @@ export default function Builder() {
                 style={{ background: "#f5f5f5", color: "#aaa" }}
               />
             </div>
-             {socials.map((s, i) => (
+            {socials.map((s, i) => (
               <div key={i} className={styles.socialRow}>
                 <input
                   value={s.label}
-                  onChange={(e) => handleSocialChange(i, "label", e.target.value)}
+                  onChange={(e) =>
+                    handleSocialChange(i, "label", e.target.value)
+                  }
                   className={styles.socialInput}
                   placeholder="Label"
                   disabled={isLoading}
                 />
                 <input
                   value={s.href}
-                  onChange={(e) => handleSocialChange(i, "href", e.target.value)}
+                  onChange={(e) =>
+                    handleSocialChange(i, "href", e.target.value)
+                  }
                   className={styles.socialInput}
                   placeholder="URL"
                   disabled={isLoading}
                 />
                 <select
                   value={s.icon}
-                  onChange={(e) => handleSocialChange(i, "icon", e.target.value)}
+                  onChange={(e) =>
+                    handleSocialChange(i, "icon", e.target.value)
+                  }
                   className={styles.socialInput}
                   style={{ width: 80 }}
                   disabled={isLoading}
@@ -481,7 +534,7 @@ export default function Builder() {
         >
           <button
             type="button"
-            // onClick={handleSave}
+            onClick={handleSave}
             disabled={isLoading}
             style={{
               padding: "0.7rem 2.2rem",
