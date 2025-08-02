@@ -35,8 +35,8 @@ export default function Builder() {
   // 🚧🚧🚧 Get auth token (assuming you store it in localStorage or context)
   const getAuthToken = () => {
     return (
-      localStorage.getItem("supabase_auth_token") ||
-      sessionStorage.getItem("supabase_auth_token")
+      localStorage.getItem("sb_token") ||
+      sessionStorage.getItem("sb_token")
     );
   };
 
@@ -154,7 +154,8 @@ export default function Builder() {
       setSocials(data.socials || []);
 
       setSaveStatus("Settings loaded!");
-      setTimeout(() => setSaveStatus(null), 2000);
+      setTimeout(() => setSaveStatus(null),  2000);
+      
     } catch (error) {
       console.error("Error loading settings:", error);
       setSaveStatus("Failed to load settings");

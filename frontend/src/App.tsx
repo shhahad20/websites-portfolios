@@ -24,13 +24,13 @@ function App() {
               <Route path="/" element={<HeroSection />} />
               {/* <Route path="/home" element={<HeroSection />} /> */}
               <Route path="/:ownerName" element={<HeroSection />} />
+
+              {/* AUTHENTICATION PROTECTION */}
+              <Route element={<RequireAuth />}>
+                <Route path="/builder" element={<Builder />} />
+              </Route>
             </Route>
             
-            {/* AUTHENTICATION PROTECTION */}
-            <Route element={<RequireAuth />}>
-              <Route path="/builder" element={<Builder />} />
-            </Route>
-
             <Route path="/about" element={<About />} />
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/logout" element={<Logout />} />
