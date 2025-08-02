@@ -139,7 +139,11 @@ export default function Builder() {
           avatar_url?: string | null;
           prompts: string[];
           socials: Array<{ label: string; href: string; icon: string }>;
-        }>("/api/builder/settings");
+        }>("/api/builder/settings", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         // Populate context with defaults
         setPrimaryColor(data.primary_color);
