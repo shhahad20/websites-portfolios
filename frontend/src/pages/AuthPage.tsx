@@ -43,49 +43,45 @@ export default function AuthPage() {
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    setSuccess(null);
-    setLoading(true);
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setError(null);
+  setSuccess(null);
+  setLoading(true);
 
-    try {
-      if (isSignIn) {
-        const payload: LoginPayload = { email, password };
-        const data = await apiPost<LoginResponse, LoginPayload>(
-          "/auth/login",
-          payload
-        );
-        setSuccess(`Welcome back, ${data.user.email}!`);
-        localStorage.setItem("sb_token", data.session.access_token);
-        navigate("/", { replace: true });
-
-        // redirect...
-      } else {
-        const payload: RegisterPayload = {
-          name,
-          email,
-          password,
-          phone: phone || undefined,
-          user_name: userName,
-          gender,
-        };
-        const data = await apiPost<RegisterResponse, RegisterPayload>(
-          "/auth/register",
-          payload
-        );
-
-        setSuccess(data.message);
-        setIsSignIn(true);
-        setName("");
-        setPhone("");
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setLoading(false);
+  try {
+    if (isSignIn) {
+      const payload: LoginPayload = { email, password };
+      const data = await apiPost<LoginResponse>("/auth/login", {
+        body: payload,
+      });
+      setSuccess(`Welcome back, ${data.user.email}!`);
+      localStorage.setItem("sb_token", data.session.access_token);
+      navigate("/", { replace: true });
+    } else {
+      const payload: RegisterPayload = {
+        name,
+        email,
+        password,
+        phone: phone || undefined,
+        user_name: userName,
+        gender,
+      };
+      const data = await apiPost<RegisterResponse>("/auth/register", {
+        body: payload,
+      });
+      setSuccess(data.message);
+      setIsSignIn(true);
+      setName("");
+      setPhone("");
     }
-  };
+  } catch (err) {
+    setError(err instanceof Error ? err.message : String(err));
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <section className={styles.global_bg}>
