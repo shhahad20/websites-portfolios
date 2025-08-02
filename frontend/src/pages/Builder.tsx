@@ -162,9 +162,7 @@ export default function Builder() {
 
     try {
       const response = await apiPost("/api/builder/settings", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
         body: payload,
       });
       console.log("Settings saved:", response);

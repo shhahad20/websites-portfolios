@@ -31,22 +31,23 @@ export async function apiGet<T>(
   return res.json()
 }
 
-export async function apiPost<T, D = unknown>(
+export async function apiPost<T>(
   endpoint: string,
-  data: D,
-  options: ApiGetOptions = {}
+  { headers = {}, body, ...rest }: ApiPostOptions
 ): Promise<T> {
-    const { headers = {}, ...rest } = options
-
   const res = await fetch(`${API_URL}${endpoint}`, {
-    method: "POST",
-        headers: {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
       'Content-Type': 'application/json',
-      ...headers,               // merge in any custom headers
+      ...headers,
     },
-    ...rest, 
-    body: JSON.stringify(data),
+    body: JSON.stringify(body),
+    ...rest,
   });
-  if (!res.ok) throw new Error(await res.text());
+
+  if (!res.ok) {
+    throw new Error(await res.text());
+  }
   return res.json();
 }
