@@ -83,6 +83,17 @@ export default function Builder() {
     }
   };
 
+// Add and remove prompt handlers
+  const handleAddPrompt = () => {
+    if (prompts.length < 5) {
+      setPrompts([...prompts, ""]);
+    }
+  };
+
+  const handleRemovePrompt = (index: number) => {
+    setPrompts(prompts.filter((_, i) => i !== index));
+  };
+
   const handlePromptChange = (i: number, value: string) => {
     setPrompts(prompts.map((p, idx) => (idx === i ? value : p)));
   };
@@ -328,7 +339,7 @@ export default function Builder() {
             <img src={avatar} alt="avatar" className={styles.avatarPreview} />
           )}
         </div>
-        <div className={styles.row}>
+        {/* <div className={styles.row}>
           <label>Prompts:</label>
           <div className={styles.promptsList}>
             {prompts.map((p, i) => (
@@ -340,6 +351,39 @@ export default function Builder() {
                 disabled={isLoading}
               />
             ))}
+          </div>
+        </div> */}
+        <div className={styles.row}>
+          <label>Prompts:</label>
+          <div className={styles.promptsList}>
+            {prompts.map((p, i) => (
+              <div key={i} className={styles.promptRow}>
+                <input
+                  type="text"
+                  value={p}
+                  onChange={(e) => handlePromptChange(i, e.target.value)}
+                  className={styles.promptInput}
+                  disabled={isLoading}
+                />
+                <button
+                  type="button"
+                  className={styles.removePromptBtn}
+                  onClick={() => handleRemovePrompt(i)}
+                  disabled={isLoading}
+                  aria-label="Remove prompt"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              className={styles.addPromptBtn}
+              onClick={handleAddPrompt}
+              disabled={isLoading || prompts.length >= 5}
+            >
+              + Add Prompt
+            </button>
           </div>
         </div>
         <div className={styles.row}>
