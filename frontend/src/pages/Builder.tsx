@@ -98,6 +98,15 @@ export default function Builder() {
     setPrompts(prompts.map((p, idx) => (idx === i ? value : p)));
   };
 
+  // Social handlers
+  const handleAddSocial = () => {
+    if (socials.length < 4) {
+      setSocials([...socials, { label: "", href: "", icon: "" }]);
+    }
+  };
+  const handleRemoveSocial = (index: number) => {
+    setSocials(socials.filter((_, i) => i !== index));
+  };
   const handleSocialChange = (
     i: number,
     field: "label" | "href" | "icon",
@@ -408,35 +417,30 @@ export default function Builder() {
                 style={{ background: "#f5f5f5", color: "#aaa" }}
               />
             </div>
-            {socials.map((s, i) => (
+             {socials.map((s, i) => (
               <div key={i} className={styles.socialRow}>
                 <input
                   value={s.label}
-                  onChange={(e) =>
-                    handleSocialChange(i, "label", e.target.value)
-                  }
+                  onChange={(e) => handleSocialChange(i, "label", e.target.value)}
                   className={styles.socialInput}
                   placeholder="Label"
                   disabled={isLoading}
                 />
                 <input
                   value={s.href}
-                  onChange={(e) =>
-                    handleSocialChange(i, "href", e.target.value)
-                  }
+                  onChange={(e) => handleSocialChange(i, "href", e.target.value)}
                   className={styles.socialInput}
                   placeholder="URL"
                   disabled={isLoading}
                 />
                 <select
                   value={s.icon}
-                  onChange={(e) =>
-                    handleSocialChange(i, "icon", e.target.value)
-                  }
+                  onChange={(e) => handleSocialChange(i, "icon", e.target.value)}
                   className={styles.socialInput}
                   style={{ width: 80 }}
                   disabled={isLoading}
                 >
+                  <option value="">Choose Icon</option>
                   <option value="twitter">Twitter</option>
                   <option value="mastodon">Mastodon</option>
                   <option value="codepen">CodePen</option>
@@ -446,8 +450,25 @@ export default function Builder() {
                   <option value="instagram">Instagram</option>
                   <option value="globe">Website</option>
                 </select>
+                <button
+                  type="button"
+                  className={styles.removeSocialBtn}
+                  onClick={() => handleRemoveSocial(i)}
+                  disabled={isLoading}
+                  aria-label="Remove social link"
+                >
+                  ×
+                </button>
               </div>
             ))}
+            <button
+              type="button"
+              className={styles.addSocialBtn}
+              onClick={handleAddSocial}
+              disabled={isLoading || socials.length >= 4}
+            >
+              + Add Social
+            </button>
           </div>
         </div>
         <div
