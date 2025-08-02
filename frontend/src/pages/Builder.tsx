@@ -1,10 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import styles from "../styles/Builder.module.css";
 import { useCustomization } from "../context/CustomizationContext";
+import { apiGet } from "../api/client";
 
 export default function Builder() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const {
     primaryColor,
@@ -35,8 +36,7 @@ export default function Builder() {
   // 🚧🚧🚧 Get auth token (assuming you store it in localStorage or context)
   const getAuthToken = () => {
     return (
-      localStorage.getItem("sb_token") ||
-      sessionStorage.getItem("sb_token")
+      localStorage.getItem("sb_token") || sessionStorage.getItem("sb_token")
     );
   };
 
@@ -115,126 +115,78 @@ export default function Builder() {
           "--social-btn-bg": hexToRgba(socialBtnColor, 0.6),
         };
 
-  // Load settings from database
-  const loadSettings = async () => {
-    try {
-      const token = getAuthToken();
-
-      if (!token) {
-        setSaveStatus("Please log in to load settings");
-        return;
-      }
-
-      const response = await fetch("/api/builder/settings", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to load settings");
-      }
-
-      const data = await response.json();
-
-      // Update context with loaded data
-      setPrimaryColor(data.primary_color);
-      setBgType(data.bg_type);
-      setBgColor(data.bg_color);
-      setGradient({
-        from: data.gradient_from || "#3b82f6",
-        to: data.gradient_to || "#8b5cf6",
-        direction: data.gradient_direction || "to bottom",
-      });
-      setInputColor(data.input_color);
-      setBorderColor(data.border_color);
-      setSocialBtnColor(data.social_btn_color);
-      setAvatar(data.avatar_url);
-      setPrompts(data.prompts || []);
-      setSocials(data.socials || []);
-
-      setSaveStatus("Settings loaded!");
-      setTimeout(() => setSaveStatus(null),  2000);
-      
-    } catch (error) {
-      console.error("Error loading settings:", error);
-      setSaveStatus("Failed to load settings");
-      setTimeout(() => setSaveStatus(null), 2000);
-    }
-  };
-
-  // Save handler - now saves to database
-  const handleSave = async () => {
-    try {
-      setIsLoading(true);
-      const token = getAuthToken();
-
-      if (!token) {
-        setSaveStatus("Please log in to save settings");
-        setIsLoading(false);
-        return;
-      }
-
-      const settingsData = {
-        primary_color: primaryColor,
-        bg_type: bgType,
-        bg_color: bgColor,
-        gradient_from: gradient.from,
-        gradient_to: gradient.to,
-        gradient_direction: gradient.direction,
-        input_color: inputColor,
-        border_color: borderColor,
-        social_btn_color: socialBtnColor,
-        avatar_url: avatar,
-        prompts: prompts,
-        socials: socials,
-      };
-
-      const response = await fetch("/api/builder/settings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(settingsData),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to save settings");
-      }
-
-      // Apply CSS variables to document root
-      document.documentElement.style.setProperty("--input-bg", inputColor);
-      document.documentElement.style.setProperty("--input-border", borderColor);
-      document.documentElement.style.setProperty(
-        "--social-btn-bg",
-        socialBtnColor
-      );
-
-      setSaveStatus("Saved!");
-      setTimeout(() => {
-        setSaveStatus(null);
-        navigate("/home");
-      }, 800);
-    } catch (error) {
-      console.error("Error saving settings:", error);
-      setSaveStatus("Failed to save");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Load settings on component mount
   React.useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        setIsLoading(true);
+        const token = getAuthToken();
+        if (!token) {
+          setSaveStatus("Please log in to load settings");
+          return;
+        }
+
+        // Use apiGet helper to fetch settings
+        const data = await apiGet<{
+          primary_color: string;
+          bg_type: "solid" | "gradient";
+          bg_color: string;
+          gradient_from?: string;
+          gradient_to?: string;
+          gradient_direction?: string;
+          input_color: string;
+          border_color: string;
+          social_btn_color: string;
+          avatar_url?: string | null;
+          prompts: string[];
+          socials: Array<{ label: string; href: string; icon: string }>;
+        }>("/api/builder/settings");
+
+        // Populate context with defaults
+        setPrimaryColor(data.primary_color);
+        setBgType(data.bg_type);
+        setBgColor(data.bg_color);
+        setGradient({
+          from: data.gradient_from ?? "#3b82f6",
+          to: data.gradient_to ?? "#8b5cf6",
+          direction: data.gradient_direction ?? "to bottom",
+        });
+        setInputColor(data.input_color);
+        setBorderColor(data.border_color);
+        setSocialBtnColor(data.social_btn_color);
+        setAvatar(data.avatar_url ?? "");
+        setPrompts(data.prompts ?? []);
+        setSocials(data.socials ?? []);
+
+        setSaveStatus("Settings loaded successfully");
+      } catch (err) {
+        console.error("Error loading settings:", err);
+        setSaveStatus("Failed to load settings");
+      } finally {
+        setIsLoading(false);
+        setTimeout(() => setSaveStatus(null), 2000);
+      }
+    };
+
     loadSettings();
-  }, []);
+  }, [
+    setPrimaryColor,
+    setBgType,
+    setBgColor,
+    setGradient,
+    setInputColor,
+    setBorderColor,
+    setSocialBtnColor,
+    setAvatar,
+    setPrompts,
+    setSocials,
+  ]);
 
   return (
     <section className={styles.builderSection} style={backgroundStyle}>
       <div className={styles.builderContainer}>
         <h1 className={styles.title}>Builder</h1>
 
-        <div className={styles.row}>
+        {/* <div className={styles.row}>
           <button
             type="button"
             onClick={loadSettings}
@@ -252,7 +204,7 @@ export default function Builder() {
           >
             Load Settings
           </button>
-        </div>
+        </div> */}
 
         <div className={styles.row}>
           <label>Primary Color:</label>
@@ -460,7 +412,7 @@ export default function Builder() {
         >
           <button
             type="button"
-            onClick={handleSave}
+            // onClick={handleSave}
             disabled={isLoading}
             style={{
               padding: "0.7rem 2.2rem",
