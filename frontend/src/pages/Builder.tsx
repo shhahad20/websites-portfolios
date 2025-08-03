@@ -40,40 +40,40 @@ export default function Builder() {
     );
   };
 
-  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
 
-    try {
-      setIsLoading(true);
-      const token = getAuthToken();
+const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (!file) return;
 
-      if (!token) {
-        setSaveStatus("Please log in to upload avatar");
-        setIsLoading(false);
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("avatar", file);
-
-      const response = await apiPost("/api/builder/upload-avatar", {
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData,
-      });
-      console.log("Avatar upload response:", response);
-      // setAvatar(data.url);
-      setSaveStatus("Avatar uploaded!");
-
-      setTimeout(() => setSaveStatus(null), 2000);
-    } catch (error) {
-      console.error("Error uploading avatar:", error);
-      setSaveStatus("Failed to upload avatar");
-      setTimeout(() => setSaveStatus(null), 2000);
-    } finally {
-      setIsLoading(false);
+  try {
+    setIsLoading(true);
+    const token = getAuthToken();
+    if (!token) {
+      setSaveStatus("Please log in to upload avatar");
+      return;
     }
-  };
+
+    // Prepare FormData
+    const formData = new FormData();
+    formData.append("avatar", file);
+
+    // Use apiPost to send multipart/form-data
+    const { url } = await apiPost<{ url: string }>("/api/builder/upload-avatar", {
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
+
+    setAvatar(url);
+    setSaveStatus("Avatar uploaded!");
+  } catch (error) {
+    console.error("Error uploading avatar:", error);
+    setSaveStatus("Failed to upload avatar");
+  } finally {
+    setIsLoading(false);
+    setTimeout(() => setSaveStatus(null), 2000);
+  }
+};
+
 
   // Add and remove prompt handlers
   const handleAddPrompt = () => {
@@ -382,7 +382,7 @@ export default function Builder() {
             disabled={isLoading}
           />
           {avatar && (
-            <img src={avatar} alt="avatar" className={styles.avatarPreview} />
+            <img src={avatar} className={styles.avatarPreview} />
           )}
         </div>
         {/* <div className={styles.row}>

@@ -35,14 +35,18 @@ export async function apiPost<T>(
   endpoint: string,
   { headers = {}, body, ...rest }: ApiPostOptions
 ): Promise<T> {
-  const res = await fetch(`${API_URL}${endpoint}`, {
+  const isFormData = body instanceof FormData;
+    const mergedHeaders: HeadersInit = {
+    // Only set JSON header if not sending FormData
+    ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+    ...headers,
+  };
+
+const res = await fetch(`${API_URL}${endpoint}`, {
     method: 'POST',
     credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      ...headers,
-    },
-    body: JSON.stringify(body),
+    headers: mergedHeaders,
+    body: isFormData ? body : JSON.stringify(body),
     ...rest,
   });
 
