@@ -57,20 +57,12 @@ export default function Builder() {
       const formData = new FormData();
       formData.append("avatar", file);
 
-      const response = await fetch("/api/builder/upload-avatar", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const response = await apiPost("/api/builder/upload-avatar", {
+        headers: { Authorization: `Bearer ${token}` },
         body: formData,
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to upload avatar");
-      }
-
-      const data = await response.json();
-      setAvatar(data.url);
+      console.log("Avatar upload response:", response);
+      // setAvatar(data.url);
       setSaveStatus("Avatar uploaded!");
 
       setTimeout(() => setSaveStatus(null), 2000);
